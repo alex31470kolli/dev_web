@@ -1,2 +1,4 @@
 # dev_web
-projet vraiment fun btw caca prout et gros zeub humide ( c'est moi, mathéo qui a écrit ça )
+Fichier à lire quand on se connecte au github.
+
+Merci de prendre garde aux modifications effectuées avant lorsque vous essayer de modifier un fichier.
