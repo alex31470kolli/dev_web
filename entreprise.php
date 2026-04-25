@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+<?php
+session_start();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'entreprise') {
+    header('Location: connexion-entreprise.html');
+    exit();
+}
+require_once 'db.php';
+?>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
