@@ -1,4 +1,3 @@
 # dev_web
-Fichier à lire quand on se connecte au github.
+J'apporte des modifications par rapport aux fichiers de Lionel (pages de connexion, d'accueil étudiant et entreprise)
 
-Merci de prendre garde aux modifications effectuées avant lorsque vous essayez de modifier un fichier.
