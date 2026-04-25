@@ -1,0 +1,1 @@
+/* Mettre les fichiers javascripts globaux ici */
