@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>CY TECH stages - connexion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Bienvenue sur le site de stages de CY TECH</h1>
+
+    <p><b>Connectez-vous !</b></p>
+    
+    <form id="form-connexion" name="form-connexion">
+        <label for="email">Email</label> 
+        <input type="email" id="email" name="email" required> <br><br>
+
+        <label for="motdepasse">Mot de passe</label> 
+        <input type="password" id="motdepasse" name="motdepasse" required>
+        <br><br>
+
+        <input type="submit" value="Me connecter">
+    </form>
+
+    <br>
+    <a href="inscription.html">Je n'ai pas de compte</a>
+
+    <script>
+    document.getElementById('form-connexion').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Empêche le rechargement de la page
+
+        const formData = new FormData(e.target);
+        
+        try {
+            const response = await fetch('traitement_connexion.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            // On vérifie si la réponse est bien du JSON
+            const result = await response.json();
+
+            if (result.success) {
+                // Redirection selon le rôle
+                if (result.role === 'admin') {
+                    window.location.href = "admin_home.php";
+                } else if (result.role === 'entreprise') {
+                    window.location.href = "entreprise_home.php";
+                } else {
+                    window.location.href = "etudiant_home.php";
+                }
+            }   else {
+                alert("Erreur : " + result.message);
+            }
+        } catch (error) {
+            console.error("Erreur technique :", error);
+            alert("Impossible de contacter le serveur.");
+        }
+    });
+    </script>
+
+</body>
+</html>
