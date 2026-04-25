@@ -1,0 +1,28 @@
+dev_web/
+├── index.php                 # Page d'accueil (redirection selon session)
+├── db.php                    # Connexion PDO (Matheo / Mismagius#001)
+├── traitement_connexion.php  # Script PHP unique pour gérer les logins
+│
+├── assets/                   # Ressources globales
+│   ├── css/                  # Styles partagés (header, footer, etc.)
+│   ├── js/                   # Scripts partagés
+│   └── img/                  # Logos (CYTech.jpg) et icônes
+│
+├── etudiant/                 # ESPACE ÉTUDIANT
+│   ├── etudiant_home.php     # Accueil étudiant (ex: pageetudiant.html)
+│   ├── etudiant.css
+│   └── etudiant.js
+│
+├── entreprise/               # ESPACE ENTREPRISE
+│   ├── entreprise_home.php   # Accueil entreprise (ex: entreprise.html)
+│   ├── entreprise.css
+│   ├── entreprise.js
+│   └── publier_offre.php     # Formulaire d'ajout d'offre
+│
+├── admin/                    # ESPACE ADMINISTRATEUR
+│   ├── admin_home.php        # Tableau de bord admin
+│   └── gestion_utilisateurs.php
+│
+└── includes/                 # Bribes de code répétées
+    ├── header.php            # La barre de navigation du haut
+    └── footer.php            # Le pied de page
