@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Page de connexion de la plateforme de stage" />
+  <title>Connexion</title>
+  <link rel="stylesheet" href="connexion.css" />
+</head>
+<body>
+  <div class="conteneur-connexion">
+    <form class="formulaire-connexion" id="formulaire-connexion">
+      <h2>Connexion</h2>
+
+      <label for="courriel">Email</label>
+      <input type="email" id="courriel" required placeholder="exemple@mail.com" />
+
+      <label for="mot-de-passe">Mot de passe</label>
+      <input type="password" id="mot-de-passe" required placeholder="••••••••" />
+
+      <button type="submit" class="bouton-principal">Se connecter</button>
+
+      <p id="message-erreur" class="message-erreur"></p>
+
+      <p class="lien-retour">
+        <a href="etudiant.html">← Retour à l'espace étudiant</a>
+      </p>
+    </form>
+  </div>
+
+  <script src="connexion.js"></script>
+</body>
+</html>

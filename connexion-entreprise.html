@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Connexion entreprise" />
+  <title>Connexion Entreprise</title>
+  <link rel="stylesheet" href="connexion-entreprise.css" />
+</head>
+<body>
+  <div class="conteneur-connexion">
+    <form class="formulaire-connexion" id="formulaire-connexion-entreprise">
+      <h2>Connexion entreprise</h2>
+
+      <label for="courriel-entreprise">Email</label>
+      <input type="email" id="courriel-entreprise" required placeholder="entreprise@mail.com" />
+
+      <label for="mot-de-passe-entreprise">Mot de passe</label>
+      <input type="password" id="mot-de-passe-entreprise" required placeholder="••••••••" />
+
+      <button type="submit" class="bouton-principal">Se connecter</button>
+
+      <p id="message-erreur-entreprise" class="message-erreur"></p>
+
+      <p class="lien-retour">
+        <a href="entreprise.html">← Retour à l'espace entreprise</a>
+      </p>
+    </form>
+  </div>
+
+  <script src="connexion-entreprise.js"></script>
+</body>
+</html>

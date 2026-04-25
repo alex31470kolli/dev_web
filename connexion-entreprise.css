@@ -1,0 +1,108 @@
+:root {
+  --couleur-principale: #1d4ed8;
+  --couleur-principale-foncee: #1e3a8a;
+  --couleur-texte: #1f2937;
+  --couleur-discrete: #6b7280;
+  --couleur-blanche: #ffffff;
+  --couleur-bordure: #d1d5db;
+  --fond-page: #f9fafb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  color: var(--couleur-texte);
+  min-height: 100vh;
+}
+
+.conteneur-connexion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.formulaire-connexion {
+  background-color: var(--couleur-blanche);
+  padding: 30px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.formulaire-connexion h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--couleur-principale-foncee);
+}
+
+.formulaire-connexion label {
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.formulaire-connexion input {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--couleur-bordure);
+  font-size: 1rem;
+}
+
+.formulaire-connexion input:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: var(--couleur-principale);
+}
+
+.bouton-principal {
+  margin-top: 20px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  background-color: var(--couleur-principale);
+  color: var(--couleur-blanche);
+  transition: 0.2s ease;
+}
+
+.bouton-principal:hover {
+  background-color: var(--couleur-principale-foncee);
+}
+
+.message-erreur {
+  color: red;
+  margin-top: 12px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.lien-retour {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.lien-retour a {
+  text-decoration: none;
+  color: var(--couleur-principale);
+}
+
+.lien-retour a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .formulaire-connexion {
+    padding: 24px 18px;
+  }
+}
