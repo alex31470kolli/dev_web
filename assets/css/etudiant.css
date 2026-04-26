@@ -1,0 +1,288 @@
+:root {
+  --couleur-principale: #1d4ed8;
+  --couleur-principale-foncee: #1e3a8a;
+  --couleur-secondaire: #f3f4f6;
+  --couleur-accent: #2563eb;
+  --couleur-texte: #1f2937;
+  --couleur-discrete: #6b7280;
+  --couleur-blanche: #ffffff;
+  --couleur-bordure: #d1d5db;
+  --fond-etiquette: #e0f2fe;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  color: var(--couleur-texte);
+  line-height: 1.6;
+}
+
+
+.barre-haut {
+  background-color: var(--couleur-blanche);
+  border-bottom: 1px solid var(--couleur-bordure);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.zone-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logo-ecole {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.zone-logo h1 {
+  font-size: 1.6rem;
+  color: var(--couleur-principale-foncee);
+}
+
+.sous-titre {
+  color: var(--couleur-discrete);
+  font-size: 0.95rem;
+}
+
+.actions-haut {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.bouton-navigation {
+  text-decoration: none;
+  color: var(--couleur-principale);
+  border: 1px solid var(--couleur-principale);
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+
+.bouton-navigation:hover {
+  background-color: var(--couleur-principale);
+  color: var(--couleur-blanche);
+}
+
+
+.conteneur-principal {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.zone-presentation {
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  padding: 28px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+.zone-presentation h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: var(--couleur-principale-foncee);
+}
+
+.zone-filtres {
+  background-color: var(--couleur-blanche);
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.zone-filtres h3 {
+  margin-bottom: 20px;
+  color: var(--couleur-principale-foncee);
+}
+
+.grille-filtres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.groupe-filtre {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupe-filtre label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.groupe-filtre select,
+.groupe-filtre input {
+  padding: 12px;
+  border: 1px solid var(--couleur-bordure);
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.groupe-filtre select:focus,
+.groupe-filtre input:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: var(--couleur-accent);
+}
+
+.zone-boutons-filtres {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.bouton-principal,
+.bouton-secondaire {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.2s ease;
+}
+
+.bouton-principal {
+  background-color: var(--couleur-principale);
+  color: var(--couleur-blanche);
+}
+
+.bouton-principal:hover {
+  background-color: var(--couleur-principale-foncee);
+}
+
+.bouton-secondaire {
+  background-color: var(--couleur-secondaire);
+  color: var(--couleur-texte);
+  border: 1px solid var(--couleur-bordure);
+}
+
+.bouton-secondaire:hover {
+  background-color: #e5e7eb;
+}
+
+
+.zone-resultats {
+  margin-bottom: 30px;
+}
+
+.entete-resultats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.entete-resultats h3 {
+  color: var(--couleur-principale-foncee);
+}
+
+#compteur-resultats {
+  color: var(--couleur-discrete);
+  font-weight: bold;
+}
+
+.grille-offres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.carte-offre {
+  background-color: var(--couleur-blanche);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  border-left: 6px solid var(--couleur-principale);
+}
+
+.carte-offre h4 {
+  margin-bottom: 8px;
+  color: var(--couleur-principale-foncee);
+}
+
+.nom-entreprise {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.information-offre {
+  color: var(--couleur-discrete);
+  margin-bottom: 12px;
+}
+
+.description-offre {
+  margin-bottom: 14px;
+}
+
+.etiquette-offre {
+  display: inline-block;
+  background-color: var(--fond-etiquette);
+  color: var(--couleur-principale-foncee);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.bouton-offre {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  background-color: var(--couleur-principale);
+  color: var(--couleur-blanche);
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.bouton-offre:hover {
+  background-color: var(--couleur-principale-foncee);
+}
+
+.aucun-resultat {
+  background-color: var(--couleur-blanche);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+  color: var(--couleur-discrete);
+}
+
+
+.pied-page {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--couleur-blanche);
+  border-top: 1px solid var(--couleur-bordure);
+  color: var(--couleur-discrete);
+}
+
+
+@media (max-width: 768px) {
+  .barre-haut {
+    padding: 16px 20px;
+  }
+
+  .zone-presentation h2 {
+    font-size: 1.5rem;
+  }
+
+  .logo-ecole {
+    width: 52px;
