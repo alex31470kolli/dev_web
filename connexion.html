@@ -43,11 +43,11 @@
             if (result.success) {
                 // Redirection selon le rôle
                 if (result.role === 'admin') {
-                    window.location.href = "admin_home.php";
+                    window.location.href = "admin/admin_home.php";
                 } else if (result.role === 'entreprise') {
-                    window.location.href = "entreprise_home.php";
+                    window.location.href = "entreprise/entreprise_home.php";
                 } else {
-                    window.location.href = "etudiant_home.php";
+                    window.location.href = "etudiant/etudiant_home.php";
                 }
             }   else {
                 alert("Erreur : " + result.message);
