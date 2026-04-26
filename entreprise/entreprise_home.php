@@ -4,7 +4,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'entreprise') {
     header('Location: connexion-entreprise.html');
     exit();
 }
-require_once '/db.php';
+require_once '../db.php';
 ?>
 <html lang="fr">
 <head>
@@ -26,7 +26,7 @@ require_once '/db.php';
 
     <nav class="actions-haut">
       <a href="connexion-entreprise.html" class="bouton-navigation">Se connecter</a>
-      <a href="publier-offre.html" class="bouton-navigation">Publier une offre</a>
+      <a href="publier-offre.php" class="bouton-navigation">Publier une offre</a>
       <a href="#" class="bouton-navigation">Mes offres</a>
     </nav>
   </header>
