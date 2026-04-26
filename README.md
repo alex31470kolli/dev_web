@@ -1,9 +1,12 @@
-# Comment utiliser le github
-
-copier le lien du github via le bouton <>code
+# Notice d'utilisation de ce github
 
 ## Partie 1 : Première connexion
-  dans votre terminal :
+
+### Méthode 1 : via les commandes du terminal
+
+    copier le lien du github via le bouton :  <>code
+    
+    dans votre terminal :
     git clone lien
     
     /* vérifier les droits du fichiers et modier en conséquence */
@@ -13,16 +16,24 @@ copier le lien du github via le bouton <>code
     
     connectez-vous à voter utilisateur mySQL 
       /* rappel : mysql -u nomUtilisateur -p */
+
+
+### Méthode 2 : Téléchargement du fichier
+    Clisquez sur "Downlad zip" via le bouton : <>code
+
+    dézipper votre fichier
+
+    allez dans le fichier dézippé
+    via votre terminal
+
+faites la commande :
+  source bdd_finale.sql
     
-    faites la commande :
-    source bdd_finale.sql
+  sortez du terminal sql (ou ouvrez un autre onglet du terminal)
     
-    sortez du terminal sql (ou ouvrez un autre onglet du terminal)
-    
-    faite la commande :
-    php -S localhost:8080
-    
-    cela ba bloquer les commandes terminal, ne faites pas de CTRL+C
+  faite la commande :
+  php -S localhost:8080
+  cela ba bloquer les commandes terminal, ne faites pas de CTRL+C
   
   dans chrome (jsp si les autres navigateurs fonctionnent) :
   localhost:8080/inscription.php
