@@ -41,20 +41,10 @@ require_once 'db.php';
             </div>
         </div>
 
-        <div id="bloc-entreprise">
-            <label>Votre entreprise :</label>
-            <select id="choix-entreprise" name="id_entreprise">
-                <option value="nouvelle">-- Nouvelle entreprise (écrire ci-dessous) --</option>
-                <?php
-                // Récupération des entreprises existantes [cite: 11]
-                $res = $pdo->query("SELECT id_entreprise, nom_entreprise FROM Entreprise");
-                while($row = $res->fetch()) {
-                    echo "<option value='".$row['id_entreprise']."'>".htmlspecialchars($row['nom_entreprise'])."</option>";
-                }
-                ?>
-            </select>
+        <div id="bloc-entreprise" style="display: none;">
             <br>
-            <input type="text" id="nom-nouvelle-entreprise" name="nom_entreprise" placeholder="Nom de la nouvelle entreprise">
+            <label for="nom_entreprise">Nom de votre entreprise :</label>
+            <input type="text" id="nom_entreprise" name="nom_entreprise">
         </div>
 
         <br><br>
@@ -64,10 +54,21 @@ require_once 'db.php';
     <script>
     const radios = document.getElementsByName('role');
     const blocEtudiant = document.getElementById('bloc-etudiant');
-    const blocEntreprise = document.getElementById('bloc-entreprise');
     const selectAnnee = document.getElementById('annee');
     const selectFiliere = document.getElementById('filiere');
     const blocFiliere = document.getElementById('bloc-filiere');
+
+    const radioEntreprise = document.getElementById('entreprise');
+    const radioEtudiant = document.getElementById('etudiant');
+    const radioAdmin = document.getElementById('admin');
+    const blocEntreprise = document.getElementById('bloc-entreprise');
+
+    [radioEntreprise, radioEtudiant, radioAdmin].forEach(radio => {
+        radio.addEventListener('change', () => {
+            blocNomEntreprise.style.display = (radioEntreprise.checked) ? 'block' : 'none';
+            document.getElementById('nom_entreprise').required = radioEntreprise.checked;
+        });
+    });
 
     // 1. Gestion de l'affichage selon le rôle (Etudiant / Entreprise / Admin) [cite: 25]
     radios.forEach(r => {
