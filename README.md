@@ -17,7 +17,7 @@ copier le lien du github via le bouton <>code
     faites la commande :
     source bdd_finale.sql
     
-    sortez du terminal sql
+    sortez du terminal sql (ou ouvrez un autre onglet du terminal)
     
     faite la commande :
     php -S localhost:8080
@@ -31,8 +31,19 @@ copier le lien du github via le bouton <>code
   créez un compte test en tant qu'admin (n'oubliez pas mail/mot de passe)
 
   Si il vous arrive des merdes pour cette étape, contactez Mathéo
+
+## Partie 2 : Connexion
+  Lorsque vous voulez vous connecter, vous aurez besoin d'un code (authentification à 2 facteurs).
+  Cependant, puisque le serveur n'est pas encore hébergé, on ne peut pas envoyer de mail. C'est donc pour cela que j'écris cette partie.
+  Pour obtenir le code, faites une requête SQL permettant de récupérer le code avec votre compte. 
+  Ex : SELECT (a2f, a2f_expire FROM Utilisateur WHERE mail='exemplemail@gmail.com' ;
+  Vous ne devez obtenir qu'une seule réponse avec votre code et la date à laquelle il expire.
+
+  Vous pouvez ainsi saisir le bon code pour vous connecter.
+
+  (je sais que c'est énervant, mais c'est la seule manière exploitable facilement que j'ai trouvée qui me permette d'utiliser l'A2f)
   
-## Partie 2 : Test des fonctionnalités
+## Partie 3 : Test des fonctionnalités
 
   Tentez de créer des comptes admin/entreprise pour voir si on peut se conneter avec eux (et les accepter avec votre compte admin principal)
 
@@ -42,7 +53,7 @@ copier le lien du github via le bouton <>code
   Testez les fonctionnalités des comptes entreprises (contactez Lionel si elles buggent)
   Testez les fonctionnalités des comptes étudiants
 
-## Partie 3 : Quand il y a eu des changements
+## Partie 4 : Quand il y a eu des changements
 
   Tout reprendre depuis l'étape 1
   (ne pas oublier de recloner le git dans votre pc: git clone lien dans votre terminal)
