@@ -1,0 +1,141 @@
+/* --- Variables de couleurs --- */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --bg-color: #f4f7f6;
+    --text-color: #333;
+    --white: #ffffff;
+    --border-color: #ddd;
+}
+
+/* --- Style Global --- */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+/* --- Conteneur du Formulaire --- */
+form {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 450px;
+    box-sizing: border-box;
+}
+
+/* --- Labels et Inputs --- */
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box; /* Évite que l'input dépasse du cadre */
+    transition: border-color 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* --- Groupes Radio --- */
+input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+input[type="radio"] + label {
+    display: inline-block;
+    font-weight: normal;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+/* --- Sections Dynamiques (Etudiant/Entreprise) --- */
+#bloc-etudiant, #bloc-entreprise {
+    background: #f9f9f9;
+    padding: 15px;
+    border-left: 4px solid var(--secondary-color);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: none; /* Caché par défaut, géré par ton JS */
+}
+
+/* --- Boutons --- */
+input[type="submit"] {
+    width: 100%;
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s transform 0.2s;
+}
+
+input[type="submit"]:hover {
+    background-color: #2980b9;
+    transform: translateY(-1px);
+}
+
+input[type="submit"]:active {
+    transform: translateY(1px);
+}
+
+/* --- Liens --- */
+a {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Adaptabilité Mobile --- */
+@media (max-width: 480px) {
+    form {
+        padding: 20px;
+    }
+}
