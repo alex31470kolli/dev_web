@@ -8,6 +8,7 @@ require_once 'db.php';
     <meta charset="UTF-8" />
     <title>CY TECH stages - Inscription</title> 
     <link rel="stylesheet" href="/assets/css/css_all.css">
+    <link rel="stylesheet" href="/assets/css/formulaire.css">
 </head>
 <body>
 
