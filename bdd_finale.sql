@@ -13,6 +13,7 @@ DROP TABLE IF EXISTS Canditature;
 DROP TABLE IF EXISTS Document;
 DROP TABLE IF EXISTS Trace;
 DROP TABLE IF EXISTS Filiere;
+DROP TABLE IF EXISTS Stage;
 
 
 
@@ -25,7 +26,9 @@ CREATE TABLE Utilisateur (
 	role_utilisateur ENUM('etudiant','entreprise','admin') NOT NULL,
     annee ENUM('ING1', 'ING2', 'ING3') NULL,
     filiere varchar(50),
-    est_valide BOOLEAN DEFAULT FALSE
+    est_valide BOOLEAN DEFAULT FALSE, 
+    a2f varchar(6) NULL,
+    a2f_expire DATETIME NULL
 );
 
 
@@ -91,9 +94,22 @@ CREATE TABLE Document (
 CREATE TABLE Trace (
 	id_action integer(7) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     id_utilisateur integer(5),
-    acte varchar(30), 
+    acte TEXT, 
     date_action datetime DEFAULT CURRENT_TIMESTAMP, 
     
     FOREIGN KEY (id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
 );
 
+CREATE TABLE Stage (
+    id_stage integer(5) AUTO_INCREMENT PRIMARY KEY,
+    id_etudiant integer(5) NOT NULL,
+    id_offre integer(5) NOT NULL,
+    date_debut_stage DATE NOT NULL,
+    date_fin DATE NOT NULL,
+    etat_suivi ENUM('En attente', 'En cours', 'Terminé', 'Archivé') DEFAULT 'En attente',
+    note_entreprise INT DEFAULT NULL,
+    commentaire_admin TEXT,
+    chemin_convention VARCHAR(255), -- Pour l'archivage des dossiers
+    FOREIGN KEY (id_etudiant) REFERENCES Utilisateur(id_utilisateur),
+    FOREIGN KEY (id_offre) REFERENCES Offre(id_offre)
+);
