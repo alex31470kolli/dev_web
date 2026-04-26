@@ -12,7 +12,7 @@ require_once 'db.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Page entreprise - consultation et publication d'offres de stage" />
   <title>Espace Entreprise - Offres de stage</title>
-  <link rel="stylesheet" href="entreprise.css" />
+  <link rel="stylesheet" href="/assets/css/entreprise.css" />
 </head>
 <body>
   <header class="barre-haut">
@@ -107,6 +107,6 @@ require_once 'db.php';
     <p>© 2026 - Plateforme de suivi et d’archivage des stages</p>
   </footer>
 
-  <script src="entreprise.js"></script>
+  <script src="/assets/js/entreprise.js"></script>
 </body>
 </html>
