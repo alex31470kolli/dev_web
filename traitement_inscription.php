@@ -38,6 +38,17 @@ try {
         $est_valide
     ]);
 
+    $id_nouvel_utilisateur = $pdo->lastInsertId();
+
+    if ($role === 'entreprise' && !empty($_POST['nom_entreprise'])) {
+        $nom_ent = $_POST['nom_entreprise'];
+        
+        // On crée l'entreprise en lui assignant l'utilisateur comme référent
+        $sqlEnt = "INSERT INTO Entreprise (nom_entreprise, id_referent) VALUES (?, ?)";
+        $stmtEnt = $pdo->prepare($sqlEnt);
+        $stmtEnt ->execute([$nom_ent, $id_nouvel_utilisateur]);
+    }
+
     echo json_encode(['success' => true, 'est_valide' => $est_valide]);
 
 } catch (Exception $e) {
