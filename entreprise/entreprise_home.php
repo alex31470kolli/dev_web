@@ -4,7 +4,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'entreprise') {
     header('Location: connexion-entreprise.html');
     exit();
 }
-require_once 'db.php';
+require_once '/db.php';
 ?>
 <html lang="fr">
 <head>
