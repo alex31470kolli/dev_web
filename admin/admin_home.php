@@ -35,7 +35,6 @@ $sql_termines = "SELECT s.*, u.nom_utilisateur, o.titre
 $stages_termines = $pdo->query($sql_termines)->fetchAll();
 ?>
 
-<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -46,22 +45,25 @@ $stages_termines = $pdo->query($sql_termines)->fetchAll();
 </head>
 <body>
 
-    <header class="top-nav">
-        <div class="container-nav">
-            <span class="logo">CY TECH ADMIN</span>
-            <nav>
-                <span>Bienvenue, <strong><?= htmlspecialchars($prenom_admin) ?></strong></span>
-                <a href="../deconnexion.php" class="logout-link">🚪 Déconnexion</a>
-            </nav>
+    <header class="top-bar">
+        <div class="welcome-msg">
+            Bonjour, <?php echo htmlspecialchars($prenom_admin); ?>
         </div>
+        <a href="../deconnexion.php" class="btn-logout">Se déconnecter</a>
     </header>
 
     <main class="container-full">
-        <section class="admin-intro">
-            <h1>Panneau de Contrôle de la Plateforme</h1>
-            <p>Gérez les utilisateurs, les entreprises et consultez les archives du site.</p>
-        </section>
+        <div class="admin-intro">
+            <h1>Panneau de contrôle</h1>
+            <p>Gestion globale de la plateforme CY TECH Stages</p>
+        </div>
 
+        <div class="dashboard-layout">
+            </div>
+    </main>
+
+    <main class="container-full">
+    
         <div class="dashboard-layout">
             <aside class="actions-list">
                 <a href="verifier_comptes.php" class="action-card">
