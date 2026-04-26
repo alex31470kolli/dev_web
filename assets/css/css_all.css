@@ -1,1 +1,46 @@
-# Mettre ici le css à utiliser sur l'entièreté du site
+:root {
+    --primary: #1e3a8a;    /* Bleu foncé pro */
+    --secondary: #2563eb;  /* Bleu vif */
+    --danger: #ef4444;     /* Rouge déconnexion */
+    --bg: #f8fafc;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    padding: 0;
+}
+
+/* BANDEAU SUPÉRIEUR */
+.top-bar {
+    background-color: var(--primary);
+    color: white;
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between; /* Prénom à gauche, Bouton à droite */
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.welcome-msg {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* BOUTON DÉCONNEXION */
+.btn-logout {
+    background-color: var(--danger);
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #dc2626;
+    transform: scale(1.05);
+}
