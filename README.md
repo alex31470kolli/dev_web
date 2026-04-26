@@ -23,8 +23,9 @@
 
     dézipper votre fichier
 
-    allez dans le fichier dézippé
-    via votre terminal
+via votre terminal :
+
+allez dans le fichier dézippé
 
 faites la commande :
   source bdd_finale.sql
