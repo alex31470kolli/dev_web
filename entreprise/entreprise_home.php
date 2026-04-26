@@ -1,11 +1,19 @@
 <?php
 session_start();
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'entreprise') {
-    header('Location: connexion-entreprise.html');
-    exit();
-}
 require_once '../db.php';
+
+if ($_SESSION['role'] !== 'entreprise') { header('Location: connexion.html'); exit(); }
+
+$id_entreprise = $_SESSION['id_entreprise'];
+
+// Exemple : Récupérer le nom de l'entreprise connectée
+$stmt = $pdo->prepare("SELECT nom_entreprise FROM Entreprise WHERE id_entreprise = ?");
+$stmt->execute([$id_entreprise]);
+$infos = $stmt->fetch();
+
+echo "Bienvenue, gérant de l'entreprise : " . $infos['nom_entreprise'];
 ?>
+
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
