@@ -2,22 +2,47 @@ DROP database IF EXISTS siteStage;
 CREATE DATABASE siteStage ;
 USE siteStage ;
 
+
+
+# /!\ Ce fichier n'est qu'à lire une fois sinon les tables vont se réinitialiser
+
 DROP TABLE IF EXISTS Utilisateur;
 DROP TABLE IF EXISTS Entreprise;
 DROP TABLE IF EXISTS Offre;
 DROP TABLE IF EXISTS Canditature;
 DROP TABLE IF EXISTS Document;
 DROP TABLE IF EXISTS Trace;
+DROP TABLE IF EXISTS Filiere;
+
+
 
 CREATE TABLE Utilisateur (
 	id_utilisateur integer(5) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	prenom varchar(50),
 	nom_utilisateur varchar(50),
 	mail varchar(100) UNIQUE,
-	mot_de_passe varchar(255),
-	role ENUM('etudiant','entreprise','admin') NOT NULL, 
-    filiere varchar(30)
+	mot_de_passe varchar(255) NOT NULL,
+	role_utilisateur ENUM('etudiant','entreprise','admin') NOT NULL,
+    annee ENUM('ING1', 'ING2', 'ING3') NULL,
+    filiere varchar(50),
+    est_valide BOOLEAN DEFAULT FALSE
 );
+
+
+CREATE TABLE Filiere (
+    id_filiere INT AUTO_INCREMENT PRIMARY KEY,
+    nom_filiere VARCHAR(50) NOT NULL,
+    niveau ENUM('ING1', 'ING2', 'ING3') NOT NULL
+);
+
+-- Insertion des données par année
+-- ING 1
+INSERT INTO Filiere (nom_filiere, niveau) VALUES ('GM - Finance', 'ING1'), ('GM - Data', 'ING1'), ('GI', 'ING1');
+-- ING 2
+INSERT INTO Filiere (nom_filiere, niveau) VALUES ('GM - Finance', 'ING2'), ('GM - Data', 'ING2'), ('GI', 'ING2');
+-- ING 3
+INSERT INTO Filiere (nom_filiere, niveau) VALUES ('HPDA', 'ING3'), ('Cybersécurité', 'ING3'), ('IA', 'ING3'), ('Cloud Computing', 'ING3');
+
 
 CREATE TABLE Entreprise (
 	id_entreprise integer(3) NOT NULL AUTO_INCREMENT PRIMARY KEY,
