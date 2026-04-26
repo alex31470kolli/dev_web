@@ -16,22 +16,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $code_saisi = $_POST['code'];
     $user_id = $_SESSION['temp_user_id'];
 
-    // Vérification avec les colonnes exactes de votre SQL
+    // 1. Vérification du code
     $stmt = $pdo->prepare("SELECT * FROM Utilisateur WHERE id_utilisateur = ? AND a2f = ? AND a2f_expire > NOW()");
     $stmt->execute([$user_id, $code_saisi]);
     $user = $stmt->fetch();
 
     if ($user) {
-        // Initialisation de la session officielle
+        // 2. Initialisation de la session officielle
         $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
         $_SESSION['role'] = $user['role_utilisateur'];
         $_SESSION['prenom'] = $user['prenom'];
         
-        // Nettoyage du code utilisé
+        // Nettoyage du code A2F
         $pdo->prepare("UPDATE Utilisateur SET a2f = NULL, a2f_expire = NULL WHERE id_utilisateur = ?")->execute([$user_id]);
         unset($_SESSION['temp_user_id']);
 
-        // Redirections selon le rôle
+        // 3. Gestion spécifique pour le rôle Entreprise
+        if ($user['role_utilisateur'] === 'entreprise') {
+            $stmtEnt = $pdo->prepare("SELECT id_entreprise FROM Entreprise WHERE id_referent = ?");
+            $stmtEnt->execute([$user['id_utilisateur']]);
+            $entreprise = $stmtEnt->fetch();
+            
+            if ($entreprise) {
+                $_SESSION['id_entreprise'] = $entreprise['id_entreprise'];
+            }
+        }
+
+        // 4. Redirection unique après avoir tout préparé
         if ($user['role_utilisateur'] === 'admin') {
             header("Location: admin/admin_home.php");
         } elseif ($user['role_utilisateur'] === 'entreprise') {
@@ -40,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: etudiant_home.php");
         }
         exit(); 
+
     } else {
         $erreur = "Code incorrect, expiré ou déjà utilisé.";
     }
