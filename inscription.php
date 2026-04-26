@@ -7,11 +7,7 @@ require_once 'db.php';
 <head>
     <meta charset="UTF-8" />
     <title>CY TECH stages - Inscription</title> 
-    <style>
-        /* Un peu de style pour que ce soit plus clair */
-        #bloc-etudiant, #bloc-entreprise, #bloc-filiere { display: none; margin-top: 15px; }
-        label { display: inline-block; width: 120px; margin-bottom: 10px; }
-    </style>
+    <link rel="stylesheet" href="/assets/css/css_all.css">
 </head>
 <body>
 
