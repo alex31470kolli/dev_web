@@ -1,66 +1,95 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once '../db.php';
 
-// Sécurité : Seul l'admin passe
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header('Location: connexion.html');
+    header('Location: ../connexion.html');
     exit();
 }
 
-// Logique pour valider un compte si on clique sur le bouton
-if (isset($_GET['valider_id'])) {
-    $id = intval($_GET['valider_id']);
-    $stmt = $pdo->prepare("UPDATE Utilisateur SET est_valide = 1 WHERE id_utilisateur = ?");
-    $stmt->execute([$id]);
-    logAction($_SESSION['user_id'], "Validation du compte ID $id"); // Trace l'action 
+// Récupération des filtres depuis l'URL
+$limit = isset($_GET['limit']) ? intval($_GET['limit']) : 20;
+$user_filter = isset($_GET['user_id']) ? $_GET['user_id'] : '';
+$date_filter = isset($_GET['date']) ? $_GET['date'] : '';
+
+// Construction dynamique de la requête SQL 
+$query = "SELECT t.*, u.nom_utilisateur, u.prenom 
+          FROM Trace t 
+          JOIN Utilisateur u ON t.id_utilisateur = u.id_utilisateur 
+          WHERE 1=1";
+$params = [];
+
+if ($user_filter) {
+    $query .= " AND t.id_utilisateur = ?";
+    $params[] = $user_filter;
+}
+if ($date_filter) {
+    $query .= " AND DATE(t.date_action) = ?";
+    $params[] = $date_filter;
 }
 
-// Récupération des comptes en attente (Entreprises et Admins uniquement)
-$en_attente = $pdo->query("SELECT * FROM Utilisateur WHERE est_valide = 0")->fetchAll();
+$query .= " ORDER BY t.date_action DESC LIMIT " . $limit;
+$stmt = $pdo->prepare($query);
+$stmt->execute($params);
+$logs = $stmt->fetchAll();
 
-// Récupération des 20 dernières traces 
-$traces = $pdo->query("SELECT t.*, u.nom_utilisateur FROM Trace t JOIN Utilisateur u ON t.id_utilisateur = u.id_utilisateur ORDER BY date_action DESC LIMIT 20")->fetchAll();
+// Liste des utilisateurs pour le filtre déroulant
+$utilisateurs = $pdo->query("SELECT id_utilisateur, nom_utilisateur, prenom FROM Utilisateur")->fetchAll();
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Administration - CY Tech</title>
-    <link rel="stylesheet" href="assets/css/admin.css"> </head>
+    <title>Journal d'activité - CY Tech</title>
+    <link rel="stylesheet" href="css_all.css">
+    <link rel="stylesheet" href="/assets/css/css_all.css">
+</head>
 <body>
-    <h1>Panneau d'administration</h1>
+    <h1>📜 Journal des Traces (Fichier Trace)</h1>
+    <a href="admin_home.php">← Retour au dashboard</a>
 
-    <section>
-        <h2>Comptes en attente de validation</h2>
-        <table border="1">
-            <tr>
-                <th>Nom</th>
-                <th>Rôle</th>
-                <th>Email</th>
-                <th>Action</th>
-            </tr>
-            <?php foreach($en_attente as $u): ?>
-            <tr>
-                <td><?= htmlspecialchars($u['nom_utilisateur']) ?></td>
-                <td><?= htmlspecialchars($u['role_utilisateur']) ?></td>
-                <td><?= htmlspecialchars($u['mail']) ?></td>
-                <td><a href="acces_logs.php?valider_id=<?= $u['id_utilisateur'] ?>">Valider le compte</a></td>
-            </tr>
-            <?php endforeach; ?>
-        </table>
-    </section>
+    <form class="filters" method="GET">
+        <div>
+            <label>Utilisateur :</label><br>
+            <select name="user_id">
+                <option value="">Tous</option>
+                <?php foreach($utilisateurs as $user): ?>
+                    <option value="<?= $user['id_utilisateur'] ?>" <?= ($user_filter == $user['id_utilisateur']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($user['prenom'] . " " . $user['nom_utilisateur']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label>Date :</label><br>
+            <input type="date" name="date" value="<?= htmlspecialchars($date_filter) ?>">
+        </div>
+        <div>
+            <label>Afficher :</label><br>
+            <select name="limit">
+                <option value="10" <?= $limit == 10 ? 'selected' : '' ?>>10</option>
+                <option value="20" <?= $limit == 20 ? 'selected' : '' ?>>20</option>
+                <option value="50" <?= $limit == 50 ? 'selected' : '' ?>>50</option>
+                <option value="100" <?= $limit == 100 ? 'selected' : '' ?>>100</option>
+            </select>
+        </div>
+        <button type="submit" style="padding: 5px 15px; cursor: pointer;">Filtrer</button>
+    </form>
 
-    <hr>
-
-    <section>
-        <h2>Journal d'activité (Traces) [cite: 79]</h2>
-        <ul>
-            <?php foreach($traces as $t): ?>
-                <li>[<?= $t['date_action'] ?>] <strong><?= $t['nom_utilisateur'] ?></strong> : <?= htmlspecialchars($t['acte']) ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </section>
+    <table>
+        <tr>
+            <th>Date & Heure</th>
+            <th>Utilisateur</th>
+            <th>Action (Acte)</th>
+        </tr>
+        <?php foreach($logs as $log): ?>
+        <tr>
+            <td><?= $log['date_action'] ?></td>
+            <td><?= htmlspecialchars($log['prenom'] . " " . $log['nom_utilisateur']) ?></td>
+            <td><?= htmlspecialchars($log['acte']) ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
 </body>
 </html>
