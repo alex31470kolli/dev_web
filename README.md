@@ -42,5 +42,10 @@ copier le lien du github via le bouton <>code
   Testez les fonctionnalités des comptes entreprises (contactez Lionel si elles buggent)
   Testez les fonctionnalités des comptes étudiants
 
+## Partie 3 : Quand il y a eu des changements
+
+  Tout reprendre depuis l'étape 1
+  (ne pas oublier de recloner le git dans votre pc: git clone lien dans votre terminal)
+
 
 Écrit par Mathéo
