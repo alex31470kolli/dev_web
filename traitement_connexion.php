@@ -12,20 +12,26 @@ $stmt->execute([$email_saisi]);
 $user = $stmt->fetch();
 
 if ($user) {
+
+    if ($user['est_valide'] == 0) {
+        echo json_encode(['success' => false, 'message' => "Votre compte est en attente de validation par un administrateur."]);
+        exit();
+    }
     // 2. On compare le MDP saisi avec le hachage de la BDD
     if (password_verify($mdp_saisi, $user['mot_de_passe'])) {
-        // SUCCÈS : Le mot de passe est correct
-        $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
-        $_SESSION['role'] = $user['role'];
-        
-        // Log de l'action dans le fichier trace [cite: 79]
-        logAction($user['id_utilisateur'], "Connexion réussie"); 
+    $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
 
-        echo json_encode(['success' => true]);
+    $_SESSION['role'] = $user['role_utilisateur']; 
+    $_SESSION['prenom'] = $user['prenom'];
+
+    logAction($user['id_utilisateur'], "Connexion réussie"); 
+
+    echo json_encode([
+        'success' => true, 
+        'role' => $user['role_utilisateur']
+    ]);
+}
     } else {
         // ÉCHEC : Mauvais mot de passe
         echo json_encode(['success' => false, 'message' => 'Mot de passe incorrect']);
     }
-} else {
-    echo json_encode(['success' => false, 'message' => 'Utilisateur inconnu']);
-}
