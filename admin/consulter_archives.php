@@ -20,7 +20,7 @@ $archives = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <title>Archives des Stages - CY Tech</title>
-    <link rel="stylesheet" href="/assets/css/css_all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <h1>📦 Archives des dossiers de stage</h1>
