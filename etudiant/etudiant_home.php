@@ -34,7 +34,8 @@ $offres = $pdo->query($sql)->fetchAll();
         <a class="navbar-brand" href="#">🎓 CY Tech Étudiant</a>
         <div class="ms-auto">
             <a href="mes_documents.php" class="btn btn-light btn-sm me-2">📁 Mes Documents</a>
-            <a href="../messagerie.php" class="btn btn-outline-light btn-sm me-2">✉️ Messagerie</a>
+            <a href="../pages_communes/messagerie.php" class="btn btn-outline-light btn-sm me-2">✉️ Messagerie</a>
+            <a href="../pages_communes/profil.php" class="btn btn-secondary btn-sm me-2">👤 Mon Profil</a>
             <a href="../deconnexion.php" class="btn btn-danger btn-sm">Déconnexion</a>
         </div>
     </div>
