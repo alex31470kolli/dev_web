@@ -49,7 +49,8 @@ $stages_termines = $pdo->query($sql_termines)->fetchAll();
             <a class="navbar-brand" href="#">🛠️ Panneau Admin CY Tech</a>
             <div class="d-flex text-white align-items-center">
                 <span class="me-3">Bonjour, <?= htmlspecialchars($prenom_admin) ?></span>
-                <a href="../deconnexion.php" class="btn btn-outline-light btn-sm">Se déconnecter</a>
+                <a href="../pages_communes/profil.php" class="btn btn-info btn-sm me-3 text-white">👤 Mon Profil</a>
+                <a href="../deconnexion.php" class="btn btn-outline-light btnf-sm">Se déconnecter</a>
             </div>
         </div>
     </nav>
@@ -79,7 +80,7 @@ $stages_termines = $pdo->query($sql_termines)->fetchAll();
                         <h6 class="mb-1">⚙️ Gestion Utilisateurs</h6>
                         <small class="text-muted">Modifier ou supprimer des comptes.</small>
                     </a>
-                    <a href="../messagerie.php" class="list-group-item list-group-item-action py-3">
+                    <a href="../pages_communes/messagerie.php" class="list-group-item list-group-item-action py-3">
                         <h6 class="mb-1">✉️ Messagerie</h6>
                         <small class="text-muted">Boîte de réception centrale.</small>
                     </a>
