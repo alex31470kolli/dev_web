@@ -6,6 +6,9 @@ dev_web/
 ├── connexion.html  # Simple formulaire qui sert de base pour se connecter à son compte
 ├── deconnexion.php  # Script PHP qui sert pour déconnecter de manière sûre un utilisateur
 ├── inscription.php  # Script PHP qui est un formulaire permettant de se créer un compte
+├── test_bd.sql  # Commandes SQL générant des utilisateurs, offres, ... pour tester les fonctionnalités du site
+├── trace_activite.log  # Fichier qui contient des traces des actions de chaque utilisateur (utile pour les admins)
+├── verification_a2f.php  # Script PHP qui sert pour l'authentifiaction à 2 facteurs
 │
 ├── assets/                   # Ressources globales
 │   ├── css/                  # Styles partagés (header, footer, etc.)
@@ -13,20 +16,29 @@ dev_web/
 │   └── img/                  # Logos (CYTech.jpg) et icônes
 │
 ├── etudiant/                 # ESPACE ÉTUDIANT
-│   ├── etudiant_home.php     # Accueil étudiant (ex: pageetudiant.html)
-│   ├── etudiant.css
-│   └── etudiant.js
+│   ├── etudiant_home.php     # Accueil étudiant
+│   ├── mes_documents.php     # Script PHP qui sert pour déposer des documents
+│   ├── postuler.php     # Script PHP qui sert quand l'utilisateur veut postuler à une offre de stage
+│   ├── traitement_candidature.php    # Script PHP pour le lien entre l'action de postuler et la base de données
+│   └── upload_doc.php    # Script PHP qui va de pair avec mes_documents.php, fonctionne similairement au fichier traitement_candidature.php
 │
 ├── entreprise/               # ESPACE ENTREPRISE
-│   ├── entreprise_home.php   # Accueil entreprise (ex: entreprise.html)
-│   ├── entreprise.css
-│   ├── entreprise.js
-│   └── publier_offre.php     # Formulaire d'ajout d'offre
+│   ├── entreprise_home.php   # Accueil entreprise 
+│   ├── gerer_candidatures.php    # Script PHP pour voir qui a postulé aux offres de stage et accepter ou non l'étudiant
+│   ├── publier_offre;php    # Script PHP qui permet à une entreprise de publier une offre de stage
+│   └── traitement_offre.php     # Script PHP qui lie la bdd avec le moment où une offre est publiée
 │
 ├── admin/                    # ESPACE ADMINISTRATEUR
 │   ├── admin_home.php        # Tableau de bord admin
-│   └── gestion_utilisateurs.php
+│   ├── acces_log.php    # Page permettant de voir les actions des différents utilisateurs
+│   ├── archiver_stage.php    # Page inutile
+│   ├── consulter_archives    # Permet de voir l'historique des stages effectués
+│   ├── statistiques.php    # Page inutile
+│   └── verifier_comptes.php    # Permet de valider les comptes admin et entreprises
 │
-└── includes/                 # Bribes de code répétées
-    ├── header.php            # La barre de navigation du haut
-    └── footer.php            # Le pied de page
+└── documents/ # est censé être vide, c'est là où sont stockés les documents des utilisateurs
+│   ├── 
+|
+└── pages_communes/
+│   ├── messagerie.php    # Sert à envoyer des messages aux différents utilisateurs
+|   └── profil.php    # Permet aux utilisateurs de modifier des infos de leur profil 
