@@ -35,150 +35,136 @@ $sql_termines = "SELECT s.*, u.nom_utilisateur, o.titre
 $stages_termines = $pdo->query($sql_termines)->fetchAll();
 ?>
 
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Admin - CY TECH Stages</title>
-    <link rel="stylesheet" href="/assets/css/css_all.css">
-    <link rel="stylesheet" href="/assets/css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-    <header class="top-bar">
-        <div class="welcome-msg">
-            Bonjour, <?php echo htmlspecialchars($prenom_admin); ?>
-        </div>
-        <a href="../deconnexion.php" class="btn-logout">Se déconnecter</a>
-    </header>
-
-    <main class="container-full">
-        <div class="admin-intro">
-            <h1>Panneau de contrôle</h1>
-            <p>Gestion globale de la plateforme CY TECH Stages</p>
-        </div>
-
-        <div class="dashboard-layout">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#">🛠️ Panneau Admin CY Tech</a>
+            <div class="d-flex text-white align-items-center">
+                <span class="me-3">Bonjour, <?= htmlspecialchars($prenom_admin) ?></span>
+                <a href="../deconnexion.php" class="btn btn-outline-light btn-sm">Se déconnecter</a>
             </div>
-    </main>
-
-    <main class="container-full">
-    
-        <div class="dashboard-layout">
-            <aside class="actions-list">
-                <a href="verifier_comptes.php" class="action-card">
-                    <div class="icon">👥</div>
-                    <div class="text">
-                        <h3>Valider les Comptes</h3>
-                        <p>Approuver les entreprises et admins en attente.</p>
-                    </div>
-                </a>
-
-                <a href="acces_logs.php" class="action-card">
-                    <div class="icon">📜</div>
-                    <div class="text">
-                        <h3>Journal d'Activité</h3>
-                        <p>Consulter les logs (traces) du site.</p>
-                    </div>
-                </a>
-
-                <a href="consulter_archives.php" class="action-card">
-                    <div class="icon">📦</div>
-                    <div class="text">
-                        <h3>Consulter les Archives</h3>
-                        <p>Historique des stages des années passées.</p>
-                    </div>
-                </a>
-
-                <a href="statistiques.php" class="action-card">
-                    <div class="icon">📊</div>
-                    <div class="text">
-                        <h3>Statistiques</h3>
-                        <p>Analyse des offres et taux de placement.</p>
-                    </div>
-                </a>
-            </aside>
-
-            <section class="management-tables">
-                <div class="filter-box">
-                    <form method="GET" class="filter-form">
-                        <select name="filiere">
-                            <option value="">Toutes les filières</option>
-                            <option value="GI" <?= $filtre_filiere == 'GI' ? 'selected' : '' ?>>GI</option>
-                            <option value="GM - Data" <?= $filtre_filiere == 'GM - Data' ? 'selected' : '' ?>>GM - Data</option>
-                        </select>
-
-                        <select name="annee">
-                            <option value="">Toutes les classes</option>
-                            <option value="ING1" <?= $filtre_annee == 'ING1' ? 'selected' : '' ?>>ING1</option>
-                            <option value="ING2" <?= $filtre_annee == 'ING2' ? 'selected' : '' ?>>ING2</option>
-                            <option value="ING3" <?= $filtre_annee == 'ING3' ? 'selected' : '' ?>>ING3</option>
-                        </select>
-
-                        <button type="submit" class="btn-filter">Filtrer</button>
-                        <a href="admin_home.php" class="btn-reset">Réinitialiser</a>
-                    </form>
-                </div>
-
-                <h2>🚀 Stages en cours d'exécution</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Étudiant</th>
-                                <th>Classe</th>
-                                <th>Filière</th>
-                                <th>Sujet / Offre</th>
-                                <th>Fin prévue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($stages_en_cours as $s): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($s['prenom'] . " " . $s['nom_utilisateur']) ?></td>
-                                <td><?= $s['annee'] ?></td>
-                                <td><?= $s['filiere'] ?></td>
-                                <td><?= htmlspecialchars($s['titre']) ?></td>
-                                <td><?= date('d/m/Y', strtotime($s['date_fin'])) ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <br>
-
-                <h2>📁 Stages terminés (À archiver)</h2>
-                <div class="table-responsive">
-                    <table class="table-urgent">
-                        <thead>
-                            <tr>
-                                <th>Étudiant</th>
-                                <th>Offre</th>
-                                <th>Date de fin</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($stages_termines as $row): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($row['nom_utilisateur']) ?></td>
-                                    <td><?= htmlspecialchars($row['titre']) ?></td>
-                                    <td><strong><?= date('d/m/Y', strtotime($row['date_fin'])) ?></strong></td>
-                                    <td>
-                                        <form method='POST' action='archiver_stage.php' class="inline-form">
-                                            <input type='hidden' name='id_stage' value='<?= $row['id_stage'] ?>'>
-                                            <button type='submit' class="btn-archive">Archiver</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
         </div>
-    </main>
+    </nav>
 
+    <div class="container-fluid px-4">
+        <div class="row">
+            
+            <div class="col-md-3 mb-4">
+                <div class="list-group shadow-sm">
+                    <a href="verifier_comptes.php" class="list-group-item list-group-item-action py-3">
+                        <h6 class="mb-1">👥 Valider les Comptes</h6>
+                        <small class="text-muted">Approuver les entreprises.</small>
+                    </a>
+                    <a href="acces_logs.php" class="list-group-item list-group-item-action py-3">
+                        <h6 class="mb-1">📜 Journal d'Activité</h6>
+                        <small class="text-muted">Consulter les traces du site.</small>
+                    </a>
+                    <a href="consulter_archives.php" class="list-group-item list-group-item-action py-3">
+                        <h6 class="mb-1">📦 Consulter les Archives</h6>
+                        <small class="text-muted">Historique des stages passés.</small>
+                    </a>
+                    <a href="statistiques.php" class="list-group-item list-group-item-action py-3">
+                        <h6 class="mb-1">📊 Statistiques</h6>
+                        <small class="text-muted">Analyse et taux de placement.</small>
+                    </a>
+                    <a href="gestion_utilisateurs.php" class="list-group-item list-group-item-action py-3">
+                        <h6 class="mb-1">⚙️ Gestion Utilisateurs</h6>
+                        <small class="text-muted">Modifier ou supprimer des comptes.</small>
+                    </a>
+                    <a href="../messagerie.php" class="list-group-item list-group-item-action py-3">
+                        <h6 class="mb-1">✉️ Messagerie</h6>
+                        <small class="text-muted">Boîte de réception centrale.</small>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <form method="GET" class="row g-2 align-items-center">
+                            <div class="col-auto">
+                                <select class="form-select" name="filiere">
+                                    <option value="">Toutes filières</option>
+                                    <option value="GI" <?= $filtre_filiere == 'GI' ? 'selected' : '' ?>>GI</option>
+                                    <option value="GM - Data" <?= $filtre_filiere == 'GM - Data' ? 'selected' : '' ?>>GM - Data</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select" name="annee">
+                                    <option value="">Toutes classes</option>
+                                    <option value="ING1" <?= $filtre_annee == 'ING1' ? 'selected' : '' ?>>ING1</option>
+                                    <option value="ING2" <?= $filtre_annee == 'ING2' ? 'selected' : '' ?>>ING2</option>
+                                    <option value="ING3" <?= $filtre_annee == 'ING3' ? 'selected' : '' ?>>ING3</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Filtrer</button>
+                                <a href="admin_home.php" class="btn btn-outline-secondary">Reset</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-white"><h5 class="mb-0 text-primary">🚀 Stages en cours d'exécution</h5></div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Étudiant</th>
+                                    <th>Classe/Filière</th>
+                                    <th>Sujet / Offre</th>
+                                    <th>Fin prévue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($stages_en_cours as $s): ?>
+                                <tr>
+                                    <td><strong><?= htmlspecialchars($s['prenom'] . " " . $s['nom_utilisateur']) ?></strong></td>
+                                    <td><span class="badge bg-secondary"><?= $s['annee'] ?></span> <?= $s['filiere'] ?></td>
+                                    <td><?= htmlspecialchars($s['titre']) ?></td>
+                                    <td><?= date('d/m/Y', strtotime($s['date_fin'])) ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card shadow-sm border-warning mb-5">
+                    <div class="card-header bg-warning text-dark"><h5 class="mb-0">📁 Stages terminés (À archiver)</h5></div>
+                    <div class="card-body p-0 table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <tbody>
+                                <?php foreach($stages_termines as $row): ?>
+                                    <tr>
+                                        <td><?= htmlspecialchars($row['nom_utilisateur']) ?></td>
+                                        <td><?= htmlspecialchars($row['titre']) ?></td>
+                                        <td>Fin : <strong><?= date('d/m/Y', strtotime($row['date_fin'])) ?></strong></td>
+                                        <td class="text-end">
+                                            <form method='POST' action='archiver_stage.php' class="m-0">
+                                                <input type='hidden' name='id_stage' value='<?= $row['id_stage'] ?>'>
+                                                <button type='submit' class="btn btn-outline-warning">Archiver le dossier</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>
