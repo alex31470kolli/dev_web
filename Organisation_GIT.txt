@@ -1,7 +1,11 @@
 dev_web/
-├── index.php                 # Page d'accueil (redirection selon session)
 ├── db.php                    # Connexion PDO (Matheo / Mismagius#001)
 ├── traitement_connexion.php  # Script PHP unique pour gérer les logins
+├── bdd_finale.sql  # Fichier qui créé la base de données
+├── traitement_inscription.php  # Script PHP unique pour gérer le rôle, ... lors de l'inscription
+├── connexion.html  # Simple formulaire qui sert de base pour se connecter à son compte
+├── deconnexion.php  # Script PHP qui sert pour déconnecter de manière sûre un utilisateur
+├── inscription.php  # Script PHP qui est un formulaire permettant de se créer un compte
 │
 ├── assets/                   # Ressources globales
 │   ├── css/                  # Styles partagés (header, footer, etc.)
