@@ -9,6 +9,8 @@ Admins :
   trouver un moyen de voir si l'a2f fonctionne pour de vrai
   améliorer le système de log là, je n'ai pas toutes les actions qui s'enregistrent (et peut-être que le fichier est réécrit à chaque fois que je lance la bdd)
   peut-être ajouter la possibilité de "mettre en avant" des stages à certains étudiants
+  Corriger bug d'acces au log qui renvoie sur la page de connexion si quelqu'un s'est connecté entre temps.
+  Ajouter les logs : inscription/connexion/offre publiée/message aux admin/document déposé/ ...
 
 
 Entreprise :
