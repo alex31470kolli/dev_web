@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($user['role_utilisateur'] === 'entreprise') {
             header("Location: entreprise/entreprise_home.php");
         } else {
-            header("Location: etudiant_home.php");
+            header("Location: etudiant/etudiant_home.php");
         }
         exit(); 
 
