@@ -9,7 +9,7 @@ Admins :
   trouver un moyen de voir si l'a2f fonctionne pour de vrai
   améliorer le système de log là, je n'ai pas toutes les actions qui s'enregistrent (et peut-être que le fichier est réécrit à chaque fois que je lance la bdd)
   peut-être ajouter la possibilité de "mettre en avant" des stages à certains étudiants
-  
+
 
 Entreprise :
   Changer l'interface et ne garder que les fonctionnalités principales
@@ -21,3 +21,4 @@ Etudiant :
   jsp j'ai pas regardé
 
 
+Apprendre à utiliser bootstrap pour le css (ça va nous faire le css pour le pc et la version mobile)
