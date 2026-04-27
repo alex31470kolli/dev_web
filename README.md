@@ -48,7 +48,8 @@ faites la commande :
   Lorsque vous voulez vous connecter, vous aurez besoin d'un code (authentification à 2 facteurs).
   Cependant, puisque le serveur n'est pas encore hébergé, on ne peut pas envoyer de mail. C'est donc pour cela que j'écris cette partie.
   Pour obtenir le code, faites une requête SQL permettant de récupérer le code avec votre compte. 
-  Ex : SELECT (a2f, a2f_expire FROM Utilisateur WHERE mail='exemplemail@gmail.com' ;
+  Ex : 
+  SELECT mail,a2f,a2f_expire FROM Utilisateur WHERE mail='exemplemail@gmail.com';
   Vous ne devez obtenir qu'une seule réponse avec votre code et la date à laquelle il expire.
 
   Vous pouvez ainsi saisir le bon code pour vous connecter.
