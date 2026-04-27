@@ -22,38 +22,56 @@ $stmt = $pdo->query("SELECT * FROM Utilisateur WHERE est_valide = 0 AND role_uti
 $en_attente = $stmt->fetchAll();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Validation des comptes - CY Tech</title>
-    <link rel="stylesheet" href="/assets/css/css_all.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Comptes en attente de validation</h1>
-    <a href="admin_home.php">← Retour au dashboard</a>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Comptes en attente de validation</h2>
+            <a href="admin_home.php" class="btn btn-secondary">← Retour au dashboard</a>
+        </div>
 
-    <table>
-        <tr>
-            <th>Utilisateur</th>
-            <th>Email</th>
-            <th>Rôle</th>
-            <th>Action</th>
-        </tr>
-        <?php foreach($en_attente as $u): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($u['prenom'] . " " . $u['nom_utilisateur']); ?></td>
-            <td><?php echo htmlspecialchars($u['mail']); ?></td>
-            <td><?php echo htmlspecialchars($u['role_utilisateur']); ?></td>
-            <td>
-                <form method="POST">
-                    <input type="hidden" name="valider_id" value="<?php echo $u['id_utilisateur']; ?>">
-                    <button type="submit" class="btn-valider">Approuver</button>
-                </form>
-            </td>
-        </tr>
-        <?php endforeach; ?>
-        <?php if (empty($en_attente)) echo "<tr><td colspan='4'>Aucune demande en attente.</td></tr>"; ?>
-    </table>
+        <div class="card shadow-sm">
+            <div class="card-body p-0">
+                <table class="table table-striped table-hover mb-0 align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Utilisateur</th>
+                            <th>Email</th>
+                            <th>Rôle</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($en_attente as $u): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($u['prenom'] . " " . $u['nom_utilisateur']); ?></td>
+                            <td><?= htmlspecialchars($u['mail']); ?></td>
+                            <td><span class="badge bg-info text-dark"><?= htmlspecialchars($u['role_utilisateur']); ?></span></td>
+                            <td class="text-end">
+                                <form method="POST" class="m-0">
+                                    <input type="hidden" name="valider_id" value="<?= $u['id_utilisateur']; ?>">
+                                    <button type="submit" class="btn btn-success btn-sm">Approuver</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                        
+                        <?php if (empty($en_attente)): ?>
+                        <tr>
+                            <td colspan='4' class="text-center text-muted py-3">Aucune demande en attente.</td>
+                        </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
