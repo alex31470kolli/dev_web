@@ -76,7 +76,7 @@ $candidatures = $stmt->fetchAll();
                     <tr>
                         <td><strong><?= htmlspecialchars($cand['prenom'] . ' ' . $cand['nom_utilisateur']) ?></strong></td>
                         <td><?= htmlspecialchars($cand['titre']) ?></td>
-                        <td><a href="../messagerie.php" class="btn btn-sm btn-outline-info">Voir ses messages</a></td>
+                        <td><a href="../pages_communes/messagerie.php" class="btn btn-sm btn-outline-info">Voir ses messages</a></td>
                         <td class="text-end">
                             <form method="POST" class="d-inline">
                                 <input type="hidden" name="id_etudiant" value="<?= $cand['id_utilisateur'] ?>">
