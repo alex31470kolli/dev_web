@@ -39,8 +39,6 @@ faites la commande :
   dans chrome (jsp si les autres navigateurs fonctionnent) :
   localhost:8080/inscription.php
 
-  /!\ C'est important pour les entreprises/admin qu'il y ait un compte administrateur pour leur accorder la connexion.
-  créez un compte test en tant qu'admin (n'oubliez pas mail/mot de passe)
 
   Si il vous arrive des merdes pour cette étape, contactez Mathéo
 
