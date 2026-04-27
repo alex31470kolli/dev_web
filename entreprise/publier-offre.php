@@ -36,78 +36,80 @@ if ($ma_boite) {
     $mes_offres = $query->fetchAll();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Publier une offre - CY Tech</title>
-    <link rel="stylesheet" href="/assets/css/publier-offre.css">
-    <style>
-        .container { max-width: 800px; margin: 20px auto; padding: 20px; font-family: sans-serif; }
-        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        label { font-weight: bold; margin-bottom: 5px; }
-        input, select, textarea { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
-        button { padding: 10px 20px; background: #1a365d; color: white; border: none; border-radius: 4px; cursor: pointer; }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h2>🚀 Déposer une nouvelle offre de stage</h2>
-        <form action="traitement_offre.php" method="POST">
-            <div class="form-group">
-                <label>Titre de l'offre</label>
-                <input type="text" name="titre" required placeholder="Ex: Développeur Fullstack">
+<body class="bg-light">
+    
+    <div class="container mt-4 mb-5">
+        <a href="entreprise_home.php" class="btn btn-outline-secondary mb-4">← Retour à l'accueil</a>
+        
+        <div class="card shadow-sm mx-auto" style="max-width: 800px;">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">🚀 Déposer une nouvelle offre de stage</h3>
             </div>
+            <div class="card-body">
+                <form action="traitement_offre.php" method="POST">
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Titre de l'offre</label>
+                        <input type="text" class="form-control" name="titre" required placeholder="Ex: Développeur Fullstack">
+                    </div>
 
-            <div class="grid">
-                <div class="form-group">
-                    <label>Niveau requis</label>
-                    <select name="annee" id="annee" onchange="actualiserFilieres()" required>
-                        <option value="">-- Choisir --</option>
-                        <option value="ING1">ING1</option>
-                        <option value="ING2">ING2</option>
-                        <option value="ING3">ING3</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Spécialité / Filière</label>
-                    <select name="filiere" id="filiere" required>
-                        <option value="">Sélectionnez un niveau</option>
-                    </select>
-                </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Niveau requis</label>
+                            <select class="form-select" name="annee" id="annee" onchange="actualiserFilieres()" required>
+                                <option value="">-- Choisir --</option>
+                                <option value="ING1">ING1</option>
+                                <option value="ING2">ING2</option>
+                                <option value="ING3">ING3</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Spécialité / Filière</label>
+                            <select class="form-select" name="filiere" id="filiere" required>
+                                <option value="">Sélectionnez un niveau</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Date de début</label>
+                            <input type="date" class="form-control" name="date_debut" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Date de fin</label>
+                            <input type="date" class="form-control" name="date_fin" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Lieu</label>
+                        <input type="text" class="form-control" name="lieu" required placeholder="Ex: Cergy (95) ou Télétravail">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Missions du stage</label>
+                        <textarea class="form-control" name="missions" rows="4" required placeholder="Décrivez les tâches confiées..."></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Compétences - mots clés</label>
+                        <input type="text" class="form-control" name="competences" required placeholder="Ex: PHP, SQL, React...">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Publier l'offre</button>
+                </form>
             </div>
-
-            <div class="grid">
-                <div class="form-group">
-                    <label>Date de début</label>
-                    <input type="date" name="date_debut" required>
-                </div>
-                <div class="form-group">
-                    <label>Date de fin</label>
-                    <input type="date" name="date_fin" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Lieu</label>
-                <input type="text" name="lieu" required placeholder="Ex: Cergy (95) ou Télétravail">
-            </div>
-
-            <div class="form-group">
-                <label>Missions du stage</label>
-                <textarea name="missions" rows="5" required placeholder="Décrivez les tâches confiées..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>Compétences techniques requises</label>
-                <input type="text" name="competences" required placeholder="Ex: PHP, SQL, React...">
-            </div>
-
-            <button type="submit">Publier l'offre</button>
-        </form>
+        </div>
     </div>
-
     <script>
         const filieresData = <?= json_encode($filieres_par_niveau); ?>;
         function actualiserFilieres() {
