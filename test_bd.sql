@@ -1,63 +1,42 @@
--- SCRIPT D'INSERTION POUR TESTS
--- Base de données : siteStage
+-- 1. INSERTION D'UTILISATEURS (Mot de passe haché pour tous : '1234')
+-- Note : est_valide = 1 pour permettre la connexion immédiate
+INSERT INTO Utilisateur (prenom, nom_utilisateur, mail, mot_de_passe, role_utilisateur, annee, filiere, est_valide)
+VALUES 
+('Alice', 'Etudiant_ING1', 'alice@cytech.fr', '$2y$10$zyHJhXeOL3jA3RVnf3/Qi.yoU/x22gv0pe06xSUgUNzQLlDn6O8n6', 'etudiant', 'ING1', 'GI', 1),
+('Bob', 'Etudiant_ING3', 'bob@cytech.fr', '$2y$10$zyHJhXeOL3jA3RVnf3/Qi.yoU/x22gv0pe06xSUgUNzQLlDn6O8n6', 'etudiant', 'ING3', 'Cybersécurité', 1),
+('Marc', 'Referent_TechCorp', 'marc@techcorp.com', '$2y$10$zyHJhXeOL3jA3RVnf3/Qi.yoU/x22gv0pe06xSUgUNzQLlDn6O8n6', 'entreprise', NULL, NULL, 1),
+('Julie', 'Referent_DataFlow', 'julie@dataflow.fr', '$2y$10$zyHJhXeOL3jA3RVnf3/Qi.yoU/x22gv0pe06xSUgUNzQLlDn6O8n6', 'entreprise', NULL, NULL, 1);
 
-/* Ce fichier test a été généré par IA */
+-- 2. INSERTION D'ENTREPRISES 
+-- On lie les référents créés ci-dessus (IDs 3 et 4 si la table était vide)
+INSERT INTO Entreprise (nom_entreprise, id_referent) 
+VALUES 
+('TechCorp', (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'marc@techcorp.com')),
+('DataFlow', (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'julie@dataflow.fr'));
 
-USE siteStage;
+-- 3. INSERTION D'OFFRES DE STAGE
+INSERT INTO Offre (titre, missions, competences, filiere, date_debut, date_fin, id_entreprise)
+VALUES 
+-- Offre pour TechCorp (Informatique ING1/ING2)
+('Stage Développeur Web Junior', 
+ 'Développement de nouvelles fonctionnalités sur notre plateforme interne en utilisant PHP et SQL.', 
+ 'HTML, CSS, PHP, MySQL', 
+ 'GI', 
+ '2026-06-01', '2026-08-31', 
+ (SELECT id_entreprise FROM Entreprise WHERE nom_entreprise = 'TechCorp')),
 
--- 1. Nettoyage des tables (Ordre respectant les contraintes FK)
-SET FOREIGN_KEY_CHECKS = 0;
-TRUNCATE TABLE Stage;
-TRUNCATE TABLE Canditature;
-TRUNCATE TABLE Document;
-TRUNCATE TABLE Trace;
-TRUNCATE TABLE Offre;
-TRUNCATE TABLE Entreprise;
-TRUNCATE TABLE Utilisateur;
-TRUNCATE TABLE Filiere;
-SET FOREIGN_KEY_CHECKS = 1;
+-- Offre pour TechCorp (Cybersécurité ING3)
+('Analyste Sécurité - SOC', 
+ 'Surveillance des réseaux, analyse de logs et détection d''intrusions.', 
+ 'Wireshark, Linux, Scripting Python', 
+ 'Cybersécurité', 
+ '2026-02-01', '2026-07-31', 
+ (SELECT id_entreprise FROM Entreprise WHERE nom_entreprise = 'TechCorp')),
 
--- 2. Insertion des Filières (pour tes filtres admin)
-INSERT INTO Filiere (nom_filiere, niveau) VALUES 
-('GI', 'ING1'), ('GM - Data', 'ING1'), ('GM - Finance', 'ING1'),
-('GI', 'ING2'), ('GM - Data', 'ING2'), ('GM - Finance', 'ING2'),
-('GI', 'ING3'), ('HPDA', 'ING3'), ('Cybersécurité', 'ING3');
-
--- 3. Insertion des Utilisateurs
--- MOT DE PASSE POUR TOUS : password123
-INSERT INTO Utilisateur (prenom, nom_utilisateur, mail, mot_de_passe, role_utilisateur, annee, filiere, est_valide) VALUES
-('Jean', 'Admin', 'admin@cytech.fr', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'admin', NULL, NULL, 1),
-('Alice', 'Etudiant', 'alice@cytech.fr', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'etudiant', 'ING1', 'GI', 1),
-('Bob', 'Etudiant', 'bob@cytech.fr', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'etudiant', 'ING2', 'GM - Data', 1),
-('Marc', 'Referent', 'contact@google.com', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'entreprise', NULL, NULL, 1),
-('Sophie', 'RH', 'rh@amazon.fr', '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', 'entreprise', NULL, NULL, 0);
-
--- 4. Insertion des Entreprises
-INSERT INTO Entreprise (nom_entreprise, id_referent) VALUES
-('Google', 4),
-('Amazon', 5);
-
--- 5. Insertion des Offres
-INSERT INTO Offre (id_entreprise, titre, description, lieu, gratification, est_pour_tous) VALUES
-(1, 'Développeur Fullstack', 'Stage de 6 mois sur React/Node', 'Paris', 1200.00, 0),
-(1, 'Data Analyst', 'Analyse de données Big Data', 'Remote', 1100.00, 0),
-(2, 'Ingénieur Cloud', 'Infrastructure AWS', 'Clichy', 1300.00, 1);
-
--- 6. Insertion des Candidatures
--- statut : 0 (attente), 1 (acceptée), 2 (refusée)
-INSERT INTO Canditature (id_utilisateur, id_offre, id_entreprise, statut) VALUES
-(2, 1, 1, 0),
-(3, 3, 2, 1);
-
--- 7. Insertion des Stages (pour tester le dashboard admin)
--- Un stage "En cours" (devrait apparaître dans le 1er tableau de l'admin)
-INSERT INTO Stage (id_etudiant, id_offre, date_debut_stage, date_fin, etat_suivi) VALUES
-(2, 1, '2024-02-01', '2024-08-01', 'En cours');
-
--- Un stage "Terminé" (devrait apparaître dans le 2ème tableau pour archivage)
-INSERT INTO Stage (id_etudiant, id_offre, date_debut_stage, date_fin, etat_suivi) VALUES
-(3, 3, '2023-06-01', '2024-01-15', 'Terminé');
-
--- Un stage déjà "Archivé"
-INSERT INTO Stage (id_etudiant, id_offre, date_debut_stage, date_fin, etat_suivi) VALUES
-(2, 2, '2023-01-01', '2023-06-30', 'Archivé');
+-- Offre pour DataFlow (Data/IA ING3)
+('Assistant Data Scientist', 
+ 'Nettoyage de jeux de données et mise en place de modèles de prédiction simples.', 
+ 'Python, Pandas, Scikit-learn', 
+ 'IA', 
+ '2026-03-01', '2026-08-31', 
+ (SELECT id_entreprise FROM Entreprise WHERE nom_entreprise = 'DataFlow'));
