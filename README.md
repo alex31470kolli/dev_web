@@ -47,7 +47,7 @@ faites la commande :
   Cependant, puisque le serveur n'est pas encore hébergé, on ne peut pas envoyer de mail. C'est donc pour cela que j'écris cette partie.
   Pour obtenir le code, faites une requête SQL permettant de récupérer le code avec votre compte. 
   Ex : 
-  SELECT mail,a2f,a2f_expire FROM Utilisateur WHERE mail='exemplemail@gmail.com';
+  SELECT mail,a2f,a2f_expire FROM Utilisateur;
   Vous ne devez obtenir qu'une seule réponse avec votre code et la date à laquelle il expire.
 
   Vous pouvez ainsi saisir le bon code pour vous connecter.
@@ -57,6 +57,7 @@ faites la commande :
 ## Partie 3 : Test des fonctionnalités
 
   Tentez de créer des comptes admin/entreprise pour voir si on peut se conneter avec eux (et les accepter avec votre compte admin principal)
+  (ou utiliser le fichier test_bd.sql avec la commande : source test_bd.sql dans le terminal mySQL)
 
   Créez un/plusieurs comptes étudiants (normalement 
   
