@@ -53,8 +53,10 @@ $offres_publiees = $stmtOffres->fetchAll();
   <div class="container">
     <a class="navbar-brand" href="#">🏢 <?= htmlspecialchars($entreprise['nom_entreprise']) ?></a>
     <div class="ms-auto">
+        <a href="../pages_communes/messagerie.php" class="btn btn-info btn-sm me-2 text-white">✉️ Messagerie</a>
         <a href="gerer_candidatures.php" class="btn btn-primary btn-sm me-2">👥 Candidatures</a>
         <a href="publier-offre.php" class="btn btn-success btn-sm me-2">Publier une offre</a>
+        <a href="../pages_communes/profil.php" class="btn btn-secondary btn-sm me-2">👤 Mon Profil</a>
         <a href="../deconnexion.php" class="btn btn-outline-light btn-sm">Déconnexion</a>
     </div>
   </div>
