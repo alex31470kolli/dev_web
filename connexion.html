@@ -3,57 +3,52 @@
 <head>
     <meta charset="UTF-8" />
     <title>CY TECH stages - Connexion</title>
-    <link rel="stylesheet" href="/assets/css/css_all.css">  
-    <link rel="stylesheet" href="/assets/css/formulaire.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light"> <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <div class="text-center mb-4">
+            <h2 class="text-primary">CY TECH Stages</h2>
+            <p class="text-muted">Connectez-vous à votre espace</p>
+        </div>
 
-    <h1>Bienvenue sur le site de stages de CY TECH</h1>
+        <form id="form-connexion" name="form-connexion">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required placeholder="nom@cytech.fr">
+            </div>
 
-    <p><b>Connectez-vous !</b></p>
-    
-    <form id="form-connexion" name="form-connexion">
-        <label for="email">Email</label> 
-        <input type="email" id="email" name="email" required> <br><br>
+            <div class="mb-3">
+                <label for="motdepasse" class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" id="motdepasse" name="motdepasse" required>
+            </div>
 
-        <label for="motdepasse">Mot de passe</label> 
-        <input type="password" id="motdepasse" name="motdepasse" required>
-        <br><br>
+            <button type="submit" class="btn btn-primary w-100 mb-3">Me connecter</button>
+            
+            <div class="text-center">
+                <a href="inscription.php" class="text-decoration-none">Je n'ai pas encore de compte</a>
+            </div>
+        </form>
+    </div>
+</div>
 
-        <input type="submit" value="Me connecter">
-    </form>
+<script>
 
-    <br>
-    <a href="inscription.php">Je n'ai pas de compte</a>
-
-    <script>
     document.getElementById('form-connexion').addEventListener('submit', async (e) => {
-        e.preventDefault(); // Empêche le rechargement de la page
-
+        e.preventDefault(); 
         const formData = new FormData(e.target);
-        
         try {
-            const response = await fetch('traitement_connexion.php', {
-                method: 'POST',
-                body: formData
-            });
-
-            // On vérifie si la réponse est bien du JSON
+            const response = await fetch('traitement_connexion.php', { method: 'POST', body: formData });
             const result = await response.json();
-
             if (result.success) {
-                if (result.requires_2fa) {
-                    window.location.href = "verification_a2f.php";
-                }
-            }   else {
+                if (result.requires_2fa) window.location.href = "verification_a2f.php";
+            } else {
                 alert("Erreur : " + result.message);
             }
         } catch (error) {
-            console.error("Erreur technique :", error);
             alert("Impossible de contacter le serveur.");
         }
     });
-    </script>
-
+</script>
 </body>
 </html>
