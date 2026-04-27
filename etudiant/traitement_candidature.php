@@ -40,6 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $stmtCand = $pdo->prepare("INSERT INTO Candidature (id_utilisateur, id_offre, id_entreprise, statut) VALUES (?, ?, ?, 0)");
         $stmtCand->execute([$expediteur, $id_offre, $id_entreprise]);
+        if (function_exists('logAction')) {
+            logAction($expediteur, "A postulé à l'offre ID : $id_offre");
+        } else {
+            $log = $pdo->prepare("INSERT INTO Trace (id_utilisateur, acte) VALUES (?, ?)");
+            $log->execute([$expediteur, "A postulé à l'offre ID : $id_offre"]);
+        }
 
         // Redirection en cas de succès
         header("Location: etudiant_home.php?success=candidature");
