@@ -9,11 +9,12 @@ USE siteStage ;
 DROP TABLE IF EXISTS Utilisateur;
 DROP TABLE IF EXISTS Entreprise;
 DROP TABLE IF EXISTS Offre;
-DROP TABLE IF EXISTS Canditature;
+DROP TABLE IF EXISTS Candidature;
 DROP TABLE IF EXISTS Document;
 DROP TABLE IF EXISTS Trace;
 DROP TABLE IF EXISTS Filiere;
 DROP TABLE IF EXISTS Stage;
+DROP TABLE IF EXISTS Message;
 
 
 
@@ -30,6 +31,11 @@ CREATE TABLE Utilisateur (
     a2f varchar(6) NULL,
     a2f_expire DATETIME NULL
 );
+
+/* Premier admin dont le mot de passe est : 1234 */
+
+INSERT INTO Utilisateur 
+VALUES (1,'Premier Admin','admin_1','mailadmin@gmail.com','$2y$10$zyHJhXeOL3jA3RVnf3/Qi.yoU/x22gv0pe06xSUgUNzQLlDn6O8n6','admin',NULL,NULL,1,NULL,NULL);
 
 
 CREATE TABLE Filiere (
@@ -113,3 +119,17 @@ CREATE TABLE Stage (
     FOREIGN KEY (id_etudiant) REFERENCES Utilisateur(id_utilisateur),
     FOREIGN KEY (id_offre) REFERENCES Offre(id_offre)
 );
+
+CREATE TABLE Message (
+    id_message INT AUTO_INCREMENT PRIMARY KEY,
+    id_expediteur INT NOT NULL,
+    id_destinataire INT NOT NULL,
+    sujet VARCHAR(150),
+    contenu TEXT NOT NULL,
+    fichier_joint VARCHAR(255) NULL,
+    date_envoi DATETIME DEFAULT CURRENT_TIMESTAMP,
+    est_lu BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_expediteur) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE,
+    FOREIGN KEY (id_destinataire) REFERENCES Utilisateur(id_utilisateur) ON DELETE CASCADE
+);
+
