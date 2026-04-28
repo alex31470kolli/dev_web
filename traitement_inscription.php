@@ -40,6 +40,10 @@ try {
 
     $id_nouvel_utilisateur = $pdo->lastInsertId();
 
+    // AJOUT DU LOG D'INSCRIPTION
+    $log = $pdo->prepare("INSERT INTO Trace (id_utilisateur, acte) VALUES (?, ?)");
+    $log->execute([$id_nouvel_utilisateur, "Nouvel utilisateur inscrit (Rôle: " . strtoupper($role) . ")"]);
+
     if ($role === 'entreprise' && !empty($_POST['nom_entreprise'])) {
         $nom_ent = $_POST['nom_entreprise'];
         
