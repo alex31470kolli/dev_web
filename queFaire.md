@@ -1,12 +1,5 @@
 Ce qu'il reste à faire est noté ici.
 
-Admins :
-  Modifier des profils
-  Supprimer des offres de stages
-  peut-être ajouter la possibilité de "mettre en avant" des stages à certains étudiants
-  modifier les rôles des utilisateurs
-  Corriger bug suppression de marc (utilisateur)
-
 
 Entreprise :
   Changer l'interface et ne garder que les fonctionnalités principales
