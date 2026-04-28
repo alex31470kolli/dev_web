@@ -23,11 +23,15 @@
 
     dézipper votre fichier
 
+ouvrez le fichier db.php (qui se trouve dans le répertoire dev_web) avec un éditeur de fichier (ex : Visual Studio Code)
+    Modifier les valeurs de $username et $password par les valeurs de vos identifiants mySQL
+
 via votre terminal :
 
-allez dans le fichier dézippé
+allez dans le fichier dézippé / cloné
 
 faites la commande :
+
   source bdd_finale.sql
     
   sortez du terminal sql (ou ouvrez un autre onglet du terminal)
