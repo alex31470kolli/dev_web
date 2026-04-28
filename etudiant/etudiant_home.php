@@ -2,35 +2,36 @@
 session_start();
 require_once '../db.php';
 
+// --- SÉCURITÉ ---
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') {
     header('Location: ../connexion.html'); exit();
 }
 
 $mon_id = $_SESSION['id_utilisateur'];
 
-// On sélectionne les offres non pourvues ET dont la date de fin est supérieure ou égale à aujourd'hui
+// On récupère la classe de l'étudiant
+$ma_classe = $_SESSION['annee'] ?? 'TOUS';
+
+// On trie d'abord par mise en avant (1 avant 0), puis par ID
 $sql = "SELECT o.*, e.nom_entreprise 
         FROM Offre o 
         JOIN Entreprise e ON o.id_entreprise = e.id_entreprise 
-        WHERE o.id_offre NOT IN (
-            SELECT id_offre FROM Candidature WHERE statut = 1
-        )
+        WHERE o.id_offre NOT IN (SELECT id_offre FROM Candidature WHERE statut = 1)
         AND o.date_fin >= CURRENT_DATE() 
-        ORDER BY o.id_offre DESC";
-$offres = $pdo->query($sql)->fetchAll();
+        ORDER BY 
+            (o.mis_en_avant = 1 AND (o.cible_mise_en_avant = ? OR o.cible_mise_en_avant = 'TOUS')) DESC, 
+            o.id_offre DESC";
 
-$stmtSign = $pdo->prepare("SELECT s.*, o.titre FROM Stage s JOIN Offre o ON s.id_offre = o.id_offre 
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$ma_classe]);
+$offres = $stmt->fetchAll();
+
+// Recherche de convention à signer
+$stmtSign = $pdo->prepare("SELECT s.*, o.titre, s.chemin_convention FROM Stage s JOIN Offre o ON s.id_offre = o.id_offre 
                            WHERE s.id_etudiant = ? AND s.etat_suivi = 'Signature Étudiant'");
-$stmtSign->execute([$_SESSION['id_utilisateur']]);
+$stmtSign->execute([$mon_id]);
 $a_signer = $stmtSign->fetch();
 ?>
-
-<?php if($a_signer): ?>
-    <div class="alert alert-warning d-flex justify-content-between align-items-center">
-        <span>🖋️ Vous avez une convention à signer pour le stage : <strong><?= $a_signer['titre'] ?></strong></span>
-        <a href="../pages_communes/signer_convention.php?id=<?= $a_signer['id_stage'] ?>" class="btn btn-dark">Signer le document</a>
-    </div>
-<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -41,8 +42,7 @@ $a_signer = $stmtSign->fetch();
 </head>
 <body class="bg-light">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-0 shadow-sm"> <div class="container">
         <a class="navbar-brand" href="#">🎓 CY Tech Étudiant</a>
         <div class="ms-auto">
             <a href="mes_documents.php" class="btn btn-light btn-sm me-2">📁 Mes Documents</a>
@@ -53,9 +53,23 @@ $a_signer = $stmtSign->fetch();
     </div>
 </nav>
 
-<div class="container">
+<?php if($a_signer): ?>
+    <div class="alert alert-warning border-0 rounded-0 m-0 shadow-sm py-3">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <strong>🖋️ Action Requise :</strong> Vous avez une convention à signer pour : 
+                <span class="badge bg-dark ms-2"><?= htmlspecialchars($a_signer['titre']) ?></span>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="../documents/<?= $a_signer['chemin_convention'] ?? '#' ?>" target="_blank" class="btn btn-sm btn-outline-dark">👁️ Consulter</a>
+                <a href="../pages_communes/signer_convention.php?id=<?= $a_signer['id_stage'] ?>" class="btn btn-sm btn-dark">Signer le document</a>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+<div class="container mt-5">
     <h2 class="mb-4">Offres de stage disponibles</h2>
-    
     <div class="row">
         <?php foreach ($offres as $o): ?>
         <div class="col-md-4 mb-4">
@@ -63,42 +77,10 @@ $a_signer = $stmtSign->fetch();
                 <div class="card-body">
                     <span class="badge bg-dark mb-2"><?= htmlspecialchars($o['nom_entreprise']) ?></span>
                     <h5 class="card-title text-primary"><?= htmlspecialchars($o['titre']) ?></h5>
-                    <p class="card-text small text-muted"><?= htmlspecialchars($o['filiere']) ?> - <?= htmlspecialchars($o['lieu']) ?></p>
                     <p class="card-text text-truncate"><?= htmlspecialchars($o['missions']) ?></p>
                 </div>
                 <div class="card-footer bg-white border-0">
-                  <a href="postuler.php?id_offre=<?= $o['id_offre'] ?>" class="btn btn-primary w-100">
-                      ✉️ Rédiger ma candidature
-                  </a>
-              </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="modalPostuler<?= $o['id_offre'] ?>" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="traitement_candidature.php" method="POST" enctype="multipart/form-data">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Candidater chez <?= htmlspecialchars($o['nom_entreprise']) ?></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="id_destinataire" value="<?= $o['id_referent'] ?>">
-                            <input type="hidden" name="sujet" value="Candidature : <?= htmlspecialchars($o['titre']) ?>">
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Votre message de motivation</label>
-                                <textarea name="contenu" class="form-control" rows="4" required placeholder="Bonjour, je suis très intéressé par votre offre..."></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Joindre un fichier (CV/LM)</label>
-                                <input type="file" name="pj" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success">Envoyer ma candidature</button>
-                        </div>
-                    </form>
+                  <a href="postuler.php?id_offre=<?= $o['id_offre'] ?>" class="btn btn-primary w-100">✉️ Rédiger ma candidature</a>
                 </div>
             </div>
         </div>
