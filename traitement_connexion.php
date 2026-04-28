@@ -21,6 +21,12 @@ if ($user) {
     // 1. Générer un code à 6 chiffres
     $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
     $expiration = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+    
+    // AJOUT DU LOG DE TENTATIVE
+    $log = $pdo->prepare("INSERT INTO Trace (id_utilisateur, acte) VALUES (?, ?)");
+    $log->execute([$user['id_utilisateur'], "Tentative de connexion - Code A2F généré"]);
+
+    $_SESSION['temp_user_id'] = $user['id_utilisateur'];
 
     // 2. Sauvegarder en BDD
     $stmt = $pdo->prepare("UPDATE Utilisateur SET a2f = ?, a2f_expire = ? WHERE id_utilisateur = ?");
