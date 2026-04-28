@@ -18,11 +18,7 @@ Entreprise :
   Demande de suppression d'offre par les admins
 
 Etudiant :
-  
-    
-  
-
-Etudiant :
-  jsp j'ai pas regardé
-
+  Ajouter des remarques sur le stage (d'abord créer des vrais stages)
+  Ajouter notifs pour la messagerie
+  Ajouter la possibilité de voir l'avancée du traitement d'une candidature
 
