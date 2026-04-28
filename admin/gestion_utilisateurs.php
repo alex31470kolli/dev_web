@@ -5,9 +5,18 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') { header('Locati
 
 // Si l'admin demande la suppression d'un utilisateur
 if (isset($_POST['supprimer_id'])) {
+    $id = intval($_POST['supprimer_id']);
+    
+    // 1. On "détache" l'utilisateur des entreprises dont il est le référent pour éviter l'erreur SQL
+    $pdo->prepare("UPDATE Entreprise SET id_referent = NULL WHERE id_referent = ?")->execute([$id]);
+    
+    // 2. On peut maintenant supprimer l'utilisateur en toute sécurité
     $stmt = $pdo->prepare("DELETE FROM Utilisateur WHERE id_utilisateur = ?");
-    $stmt->execute([$_POST['supprimer_id']]);
-    $message_succes = "Utilisateur supprimé avec succès.";
+    if ($stmt->execute([$id])) {
+        // Enregistrement dans les logs
+        logAction($_SESSION['id_utilisateur'], "Suppression définitive de l'utilisateur ID : $id");
+        $message_succes = "Utilisateur supprimé avec succès.";
+    }
 }
 
 // Récupération de tous les utilisateurs
