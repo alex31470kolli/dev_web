@@ -1,11 +1,8 @@
 Ce qu'il reste à faire est noté ici.
 
-Ajout d'une page de profil et d'une fonction de recherche d'utilisateur pour envoyer des demanes/messages
-
 Admins :
   Modifier des profils
   Supprimer des offres de stages
-  trouver un moyen de voir si l'a2f fonctionne pour de vrai
   peut-être ajouter la possibilité de "mettre en avant" des stages à certains étudiants
   modifier les rôles des utilisateurs
   Corriger bug suppression de marc (utilisateur)
