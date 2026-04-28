@@ -16,23 +16,36 @@ $entreprise = $stmtEnt->fetch();
 if (!$entreprise) { die("Erreur : Aucune entreprise associée."); }
 $id_ent = $entreprise['id_entreprise'];
 
-// TRAITEMENT DES BOUTONS ACCEPTER / REFUSER
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'], $_POST['id_etudiant'], $_POST['id_offre'])) {
-    $nouveau_statut = ($_POST['action'] === 'accepter') ? 1 : 2;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'accepter') {
     $id_etudiant = intval($_POST['id_etudiant']);
     $id_offre_post = intval($_POST['id_offre']);
 
-    // CORRECTION ICI : "Candidature" au lieu de "Canditature"
-    $update = $pdo->prepare("UPDATE Candidature SET statut = ? WHERE id_utilisateur = ? AND id_offre = ?");
-    $update->execute([$nouveau_statut, $id_etudiant, $id_offre_post]);
-    
-    // Si c'est accepté, on pourrait aussi insérer la ligne dans la table 'Stage' ici !
-    
-    $message_alerte = "<div class='alert alert-success'>La candidature a été mise à jour !</div>";
+    $pdo->beginTransaction(); // Sécurité : tout passe ou rien ne passe
+    try {
+        // 1. Update de la candidature
+        $pdo->prepare("UPDATE Candidature SET statut = 1 WHERE id_utilisateur = ? AND id_offre = ?")
+            ->execute([$id_etudiant, $id_offre_post]);
+
+        // 2. Création du stage en attente de l'admin
+        // On récupère les dates de l'offre pour remplir le stage
+        $stmtOffre = $pdo->prepare("SELECT date_debut, date_fin FROM Offre WHERE id_offre = ?");
+        $stmtOffre->execute([$id_offre_post]);
+        $o = $stmtOffre->fetch();
+
+        $sqlStage = "INSERT INTO Stage (id_etudiant, id_offre, date_debut_stage, date_fin, etat_suivi) 
+                     VALUES (?, ?, ?, ?, 'Validation Admin')";
+        $pdo->prepare($sqlStage)->execute([$id_etudiant, $id_offre_post, $o['date_debut'], $o['date_fin']]);
+
+        logAction($_SESSION['id_utilisateur'], "A accepté l'étudiant $id_etudiant (Stage créé)");
+        $pdo->commit();
+        $message_alerte = "<div class='alert alert-success'>Candidature acceptée ! Le dossier est transmis à l'admin.</div>";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        $message_alerte = "<div class='alert alert-danger'>Erreur : " . $e->getMessage() . "</div>";
+    }
 }
 
 // RÉCUPÉRATION DES CANDIDATURES EN ATTENTE (statut = 0)
-// CORRECTION ICI : "Candidature" au lieu de "Canditature"
 $sql = "SELECT c.*, u.prenom, u.nom_utilisateur, u.mail, o.titre 
         FROM Candidature c
         JOIN Utilisateur u ON c.id_utilisateur = u.id_utilisateur
