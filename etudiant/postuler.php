@@ -42,7 +42,7 @@ if ($deja_postule > 0) {
     </div>";
     exit(); // On arrête l'affichage du reste de la page
 }
-?>
+
 
 if (!$offre) {
     die("Cette offre n'existe plus.");
