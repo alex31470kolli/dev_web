@@ -23,6 +23,27 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute([$id_offre]);
 $offre = $stmt->fetch();
 
+
+// Vérifier si l'étudiant a déjà postulé à CETTE offre
+$stmtCheck = $pdo->prepare("SELECT COUNT(*) FROM Candidature WHERE id_utilisateur = ? AND id_offre = ?");
+$stmtCheck->execute([$_SESSION['id_utilisateur'], $id_offre]);
+$deja_postule = $stmtCheck->fetchColumn();
+
+// Si oui, on affiche un message et on arrête le script (ou on cache le formulaire)
+if ($deja_postule > 0) {
+    echo "
+    <div class='container mt-5'>
+        <div class='alert alert-warning text-center shadow-sm'>
+            <h4>🚩 Action impossible</h4>
+            <p>Vous avez déjà envoyé une candidature pour l'offre : <strong>" . htmlspecialchars($offre['titre']) . "</strong>.</p>
+            <hr>
+            <a href='etudiant_home.php' class='btn btn-primary'>Retour à l'accueil</a>
+        </div>
+    </div>";
+    exit(); // On arrête l'affichage du reste de la page
+}
+?>
+
 if (!$offre) {
     die("Cette offre n'existe plus.");
 }
