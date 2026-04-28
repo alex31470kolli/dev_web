@@ -48,6 +48,24 @@ $offres_publiees = $stmtOffres->fetchAll();
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
+    <?php
+    // On cherche si l'entreprise a des conventions en attente de SA signature
+    $stmtSignEnt = $pdo->prepare("
+        SELECT s.*, u.prenom, u.nom_utilisateur, o.titre 
+        FROM Stage s 
+        JOIN Utilisateur u ON s.id_etudiant = u.id_utilisateur
+        JOIN Offre o ON s.id_offre = o.id_offre
+        WHERE o.id_entreprise = ? AND s.etat_suivi = 'Signature Entreprise'");
+    $stmtSignEnt->execute([$id_ent]);
+    $conventions_a_signer = $stmtSignEnt->fetchAll();
+    ?>
+
+    <?php foreach($conventions_a_signer as $conv): ?>
+        <div class="alert alert-info d-flex justify-content-between align-items-center">
+            <span>🖋️ Convention à signer pour l'étudiant : <strong><?= htmlspecialchars($conv['prenom']) ?></strong> (<?= htmlspecialchars($conv['titre']) ?>)</span>
+            <a href="../pages_communes/signer_convention.php?id=<?= $conv['id_stage'] ?>" class="btn btn-primary btn-sm">Signer la convention</a>
+        </div>
+    <?php endforeach; ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
   <div class="container">
