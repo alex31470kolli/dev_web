@@ -26,6 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['id_utilisateur'] = $user['id_utilisateur'];
         $_SESSION['role'] = $user['role_utilisateur'];
         $_SESSION['prenom'] = $user['prenom'];
+
+        // AJOUT DU LOG DE CONNEXION RÉUSSIE
+        $log = $pdo->prepare("INSERT INTO Trace (id_utilisateur, acte) VALUES (?, ?)");
+        $log->execute([$user['id_utilisateur'], "Connexion réussie - Accès au tableau de bord"]);
         
         // Nettoyage du code A2F
         $pdo->prepare("UPDATE Utilisateur SET a2f = NULL, a2f_expire = NULL WHERE id_utilisateur = ?")->execute([$user_id]);
