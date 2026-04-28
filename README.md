@@ -4,19 +4,11 @@
 
 ### Méthode 1 : via les commandes du terminal
 
-    copier le lien du github via le bouton :  <>code
+    copier le lien du github via le bouton :  <>code (celui sur fond vert)
     
     dans votre terminal :
     git clone lien
-    
-    /* vérifier les droits du fichiers et modier en conséquence */
-    
-    faites la commande :
-    cd dev_web
-    
-    connectez-vous à voter utilisateur mySQL 
-      /* rappel : mysql -u nomUtilisateur -p */
-
+        
 
 ### Méthode 2 : Téléchargement du fichier
     Clisquez sur "Downlad zip" via le bouton : <>code
@@ -29,22 +21,24 @@ ouvrez le fichier db.php (qui se trouve dans le répertoire dev_web) avec un éd
 via votre terminal :
 
 allez dans le fichier dézippé / cloné
+connectez-vous à voter utilisateur mySQL 
+      /* rappel : mysql -u nomUtilisateur -p */
+
 
 faites la commande :
 
   source bdd_finale.sql
     
-  sortez du terminal sql (ou ouvrez un autre onglet du terminal)
+sortez du terminal sql (ou ouvrez un autre onglet du terminal)
     
-  faite la commande :
+faite la commande :
   php -S localhost:8080
-  cela ba bloquer les commandes terminal, ne faites pas de CTRL+C
+cela ba bloquer les commandes terminal, ne faites pas de CTRL+C
   
-  dans chrome (jsp si les autres navigateurs fonctionnent) :
-  localhost:8080/inscription.php
+dans chrome (jsp si les autres navigateurs fonctionnent) :
+  localhost:8080/connexion.html
 
-
-  Si il vous arrive des merdes pour cette étape, contactez Mathéo
+      S'il vous arrive des merdes pour cette étape, contactez Mathéo
 
 ## Partie 2 : Connexion
   Lorsque vous voulez vous connecter, vous aurez besoin d'un code (authentification à 2 facteurs).
@@ -52,11 +46,11 @@ faites la commande :
   Pour obtenir le code, faites une requête SQL permettant de récupérer le code avec votre compte. 
   Ex : 
   SELECT mail,a2f,a2f_expire FROM Utilisateur;
-  Vous ne devez obtenir qu'une seule réponse avec votre code et la date à laquelle il expire.
+  Vous obtenez la liste des mails des utilisateurs, le code a2f de l'utilisateur qui tente de se connecter.
 
   Vous pouvez ainsi saisir le bon code pour vous connecter.
 
-  (je sais que c'est énervant, mais c'est la seule manière exploitable facilement que j'ai trouvée qui me permette d'utiliser l'A2f)
+      (je sais que c'est énervant, mais c'est la seule manière exploitable facilement que j'ai trouvée qui me permette d'utiliser l'A2f)
   
 ## Partie 3 : Test des fonctionnalités
 
