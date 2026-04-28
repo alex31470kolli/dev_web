@@ -18,7 +18,19 @@ $sql = "SELECT o.*, e.nom_entreprise
         AND o.date_fin >= CURRENT_DATE() 
         ORDER BY o.id_offre DESC";
 $offres = $pdo->query($sql)->fetchAll();
+
+$stmtSign = $pdo->prepare("SELECT s.*, o.titre FROM Stage s JOIN Offre o ON s.id_offre = o.id_offre 
+                           WHERE s.id_etudiant = ? AND s.etat_suivi = 'Signature Étudiant'");
+$stmtSign->execute([$_SESSION['id_utilisateur']]);
+$a_signer = $stmtSign->fetch();
 ?>
+
+<?php if($a_signer): ?>
+    <div class="alert alert-warning d-flex justify-content-between align-items-center">
+        <span>🖋️ Vous avez une convention à signer pour le stage : <strong><?= $a_signer['titre'] ?></strong></span>
+        <a href="../pages_communes/signer_convention.php?id=<?= $a_signer['id_stage'] ?>" class="btn btn-dark">Signer le document</a>
+    </div>
+<?php endif; ?>
 
 <!DOCTYPE html>
 <html lang="fr">
