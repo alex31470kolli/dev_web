@@ -33,6 +33,15 @@ $sql_termines = "SELECT s.*, u.nom_utilisateur, o.titre
                  ORDER BY s.date_fin ASC";
 
 $stages_termines = $pdo->query($sql_termines)->fetchAll();
+
+$stmtTasks = $pdo->query("SELECT s.*, u.prenom, u.nom_utilisateur, o.titre 
+                          FROM Stage s 
+                          JOIN Utilisateur u ON s.id_etudiant = u.id_utilisateur
+                          JOIN Offre o ON s.id_offre = o.id_offre
+                          WHERE s.etat_suivi IN ('Validation Admin', 'Signature Admin')
+                          ORDER BY s.id_stage ASC");
+$taches_admin = $stmtTasks->fetchAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +66,45 @@ $stages_termines = $pdo->query($sql_termines)->fetchAll();
 
     <div class="container-fluid px-4">
         <div class="row">
+            <div class="col-md-9">
+                <div class="card shadow-sm mb-4 border-danger">
+                    <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">🚩 Actions administratives requises</h5>
+                        <span class="badge bg-white text-danger"><?= count($taches_admin) ?> dossiers</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Étudiant</th>
+                                    <th>Offre / Entreprise</th>
+                                    <th>État Actuel</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($taches_admin as $s): ?>
+                                <tr>
+                                    <td><strong><?= htmlspecialchars($s['prenom'] . " " . $s['nom_utilisateur']) ?></strong></td>
+                                    <td><?= htmlspecialchars($s['titre']) ?></td>
+                                    <td><span class="badge bg-info text-dark"><?= $s['etat_suivi'] ?></span></td>
+                                    <td class="text-end">
+                                        <?php if($s['etat_suivi'] == 'Validation Admin'): ?>
+                                            <a href="traiter_stage.php?id=<?= $s['id_stage'] ?>&action=envoyer" class="btn btn-sm btn-primary">Valider le dossier</a>
+                                        <?php else: ?>
+                                            <a href="traiter_stage.php?id=<?= $s['id_stage'] ?>&action=finaliser" class="btn btn-sm btn-success">Signer la convention</a>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                                <?php if(empty($taches_admin)): ?>
+                                    <tr><td colspan="4" class="text-center py-4 text-muted">Aucune action requise pour le moment.</td></tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             
             <div class="col-md-3 mb-4">
                 <div class="list-group shadow-sm">
