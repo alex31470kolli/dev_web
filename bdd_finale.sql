@@ -112,7 +112,7 @@ CREATE TABLE Stage (
     id_offre integer(5) NOT NULL,
     date_debut_stage DATE NOT NULL,
     date_fin DATE NOT NULL,
-    etat_suivi ENUM('En attente', 'En cours', 'Terminé', 'Archivé') DEFAULT 'En attente',
+    etat_suivi ENUM('Validation Admin','Signature Entreprise','Signature Étudiant','Signature Admin', 'En attente', 	'En cours', 'Terminé', 'Archivé') DEFAULT 'En attente',
     note_entreprise INT DEFAULT NULL,
     commentaire_admin TEXT,
     chemin_convention VARCHAR(255), -- Pour l'archivage des dossiers
