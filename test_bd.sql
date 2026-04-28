@@ -40,3 +40,89 @@ VALUES
  'IA', 
  '2026-03-01', '2026-08-31', 
  (SELECT id_entreprise FROM Entreprise WHERE nom_entreprise = 'DataFlow'));
+ 
+ 
+ -- ==========================================================
+-- TEST 1 : L'ÉTUDIANT ALICE POSTULE À L'OFFRE TECHCORP
+-- ==========================================================
+
+-- 1.1 Insertion de la candidature (statut 0 = en attente)
+INSERT INTO Candidature (id_utilisateur, id_offre, id_entreprise, statut)
+VALUES (
+    (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'alice@cytech.fr'),
+    (SELECT id_offre FROM Offre WHERE titre = 'Stage Développeur Web Junior'),
+    (SELECT id_entreprise FROM Entreprise WHERE nom_entreprise = 'TechCorp'),
+    0
+);
+
+-- 1.2 Simulation du message envoyé avec le CV
+INSERT INTO Message (id_expediteur, id_destinataire, sujet, contenu, fichier_joint)
+VALUES (
+    (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'alice@cytech.fr'),
+    (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'marc@techcorp.com'),
+    'Candidature : Stage Développeur Web Junior',
+    'Bonjour, voici mon CV pour le stage de développement web.',
+    '1714318000_cv_alice.pdf'
+);
+
+-- 1.3 Ajout de la trace (Log)
+INSERT INTO Trace (id_utilisateur, acte) 
+VALUES ((SELECT id_utilisateur FROM Utilisateur WHERE mail = 'alice@cytech.fr'), 'A postulé à l''offre ID 1 (Web Junior)');
+
+
+-- ==========================================================
+-- TEST 2 : L'ENTREPRISE (MARC) ACCEPTE ALICE
+-- ==========================================================
+
+-- 2.1 Mise à jour du statut de candidature (1 = acceptée)
+UPDATE Candidature 
+SET statut = 1 
+WHERE id_utilisateur = (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'alice@cytech.fr')
+AND id_offre = (SELECT id_offre FROM Offre WHERE titre = 'Stage Développeur Web Junior');
+
+-- 2.2 Création du dossier de STAGE (Etape : Validation Admin)
+INSERT INTO Stage (id_etudiant, id_offre, date_debut_stage, date_fin, etat_suivi)
+VALUES (
+    (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'alice@cytech.fr'),
+    (SELECT id_offre FROM Offre WHERE titre = 'Stage Développeur Web Junior'),
+    '2026-06-01', '2026-08-31',
+    'Validation Admin'
+);
+
+-- 2.3 Log de l'acceptation
+INSERT INTO Trace (id_utilisateur, acte) 
+VALUES ((SELECT id_utilisateur FROM Utilisateur WHERE mail = 'marc@techcorp.com'), 'A accepté la candidature de Alice - Stage créé');
+
+
+-- ==========================================================
+-- TEST 3 : L'ADMIN VALIDE LE DOSSIER
+-- ==========================================================
+
+-- 3.1 L'admin fait passer le stage à l'étape suivante
+UPDATE Stage 
+SET etat_suivi = 'Signature Entreprise'
+WHERE id_etudiant = (SELECT id_utilisateur FROM Utilisateur WHERE mail = 'alice@cytech.fr');
+
+-- 3.2 Log de l'admin
+INSERT INTO Trace (id_utilisateur, acte) 
+VALUES (1, 'Admin a validé le dossier Alice et envoyé pour signature entreprise');
+
+
+-- ==========================================================
+-- REQUÊTES DE VÉRIFICATION (À lancer pour voir si tout est là)
+-- ==========================================================
+
+-- Vérifier le statut des candidatures
+SELECT u.prenom, o.titre, c.statut as 'Statut (0:attente, 1:OK)' 
+FROM Candidature c 
+JOIN Utilisateur u ON c.id_utilisateur = u.id_utilisateur
+JOIN Offre o ON c.id_offre = o.id_offre;
+
+-- Vérifier l'avancement des conventions de stage
+SELECT u.prenom as 'Stagiaire', o.titre, s.etat_suivi 
+FROM Stage s
+JOIN Utilisateur u ON s.id_etudiant = u.id_utilisateur
+JOIN Offre o ON s.id_offre = o.id_offre;
+
+-- Vérifier les logs d'activité
+SELECT date_action, acte FROM Trace ORDER BY date_action DESC;
