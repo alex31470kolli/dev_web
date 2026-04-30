@@ -1,21 +1,24 @@
-# Notice d'utilisation de ce github
+# Comment lancer le site web
+
+/!\ Puisque le site n'est pas hébergé, tout doit être fait sur le système d'exploitation Linux
 
 ## Partie 1 : Première connexion
 
-### Méthode 1 : via les commandes du terminal
 
+### Méthode 1 : via les commandes du terminal
+    
+    Sur le github, branche main,
     copier le lien du github via le bouton :  <>code (celui sur fond vert)
     
     dans votre terminal :
     git clone lien
         
-
 ### Méthode 2 : Téléchargement du fichier
     Clisquez sur "Downlad zip" via le bouton : <>code
 
     dézipper votre fichier
 
-ouvrez le fichier db.php (qui se trouve dans le répertoire dev_web) avec un éditeur de fichier (ex : Visual Studio Code)
+ouvrez le fichier db.php (qui se trouve dans le répertoire dev_web) avec un éditeur de fichier/texte (ex : Visual Studio Code)
     Modifier les valeurs de $username et $password par les valeurs de vos identifiants mySQL
 
 via votre terminal :
@@ -41,6 +44,9 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
       S'il vous arrive des merdes pour cette étape, contactez Mathéo
 
 ## Partie 2 : Connexion
+
+  Voici les identifiants du premier admin créé : mailadmin@gmail.com / 1234  (adresse mail / mot de passe)
+  
   Lorsque vous voulez vous connecter, vous aurez besoin d'un code (authentification à 2 facteurs).
   Cependant, puisque le serveur n'est pas encore hébergé, on ne peut pas envoyer de mail. C'est donc pour cela que j'écris cette partie.
   Pour obtenir le code, faites une requête SQL permettant de récupérer le code avec votre compte. 
@@ -49,7 +55,6 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
   Vous obtenez la liste des mails des utilisateurs, le code a2f de l'utilisateur qui tente de se connecter.
 
   Vous pouvez ainsi saisir le bon code pour vous connecter.
-
       (je sais que c'est énervant, mais c'est la seule manière exploitable facilement que j'ai trouvée qui me permette d'utiliser l'A2f)
   
 ## Partie 3 : Test des fonctionnalités
