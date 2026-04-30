@@ -3,48 +3,35 @@ session_start();
 require_once '../db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $expediteur = $_SESSION['id_utilisateur'];
-    $destinataire = $_POST['id_destinataire'];
-    $sujet = $_POST['sujet'];
-    $contenu = $_POST['contenu'];
-    $id_offre = $_POST['id_offre'];           
-    $id_entreprise = $_POST['id_entreprise']; 
-    $nom_fichier = null;
+    $id_offre = intval($_POST['id_offre']);
+    $id_entreprise = intval($_POST['id_entreprise']);
+    $id_etudiant = $_SESSION['id_utilisateur'];
+    $chemin_final = null;
 
-    $choix = $_POST['choix_fichier'];
-
-    // 1. Gestion du fichier (Nouveau ou Existant)
-    if ($choix === 'nouveau' && isset($_FILES['pj_nouvelle']) && $_FILES['pj_nouvelle']['error'] === 0) {
+    // Cas 1 : L'étudiant utilise un document déjà présent dans son profil
+    if ($_POST['choix_fichier'] === 'existant') {
+        $chemin_final = $_POST['doc_existant'];
+    } 
+    // Cas 2 : L'étudiant télécharge un nouveau fichier depuis son ordinateur[cite: 11]
+    else if ($_POST['choix_fichier'] === 'nouveau' && isset($_FILES['pj_nouvelle'])) {
         $repertoire = "../documents/";
-        if (!is_dir($repertoire)) mkdir($repertoire, 0777, true);
-        $nom_fichier = time() . "_" . preg_replace("/[^a-zA-Z0-9.]/", "_", basename($_FILES['pj_nouvelle']['name']));
-        move_uploaded_file($_FILES['pj_nouvelle']['tmp_name'], $repertoire . $nom_fichier);
-    } elseif ($choix === 'existant' && !empty($_POST['doc_existant'])) {
-        $nom_fichier = $_POST['doc_existant'];
+        // Création d'un nom unique pour éviter les écrasements
+        $nom_fichier = time() . "_" . basename($_FILES['pj_nouvelle']['name']);
+        $destination = $repertoire . $nom_fichier;
+
+        if (move_uploaded_file($_FILES['pj_nouvelle']['tmp_name'], $destination)) {
+            $chemin_final = $nom_fichier;
+        }
     }
 
-    try {
-        $pdo->beginTransaction();
-
-        // 2. Envoi du message interne
-        $stmtMsg = $pdo->prepare("INSERT INTO Message (id_expediteur, id_destinataire, sujet, contenu, fichier_joint) VALUES (?, ?, ?, ?, ?)");
-        $stmtMsg->execute([$expediteur, $destinataire, $sujet, $contenu, $nom_fichier]);
-
-        // 3. Création de la candidature
-        $stmtCand = $pdo->prepare("INSERT INTO Candidature (id_utilisateur, id_offre, id_entreprise, statut) VALUES (?, ?, ?, 0)");
-        $stmtCand->execute([$expediteur, $id_offre, $id_entreprise]);
-
-        // 4. Log de l'action
-        $pdo->prepare("INSERT INTO Trace (id_utilisateur, acte) VALUES (?, ?)")
-            ->execute([$expediteur, "A postulé à l'offre ID : $id_offre"]);
-
-        $pdo->commit();
-        header("Location: etudiant_home.php?success=candidature");
-        exit();
-
-    } catch (PDOException $e) {
-        $pdo->rollBack();
-        if ($e->getCode() == 23000) die("Erreur : Vous avez déjà postulé à cette offre.");
-        die("Erreur SQL : " . $e->getMessage());
+    // Insertion dans la base de données (incluant le chemin du fichier)
+    $sql = "INSERT INTO Candidature (id_utilisateur, id_offre, id_entreprise, statut, chemin_fichier) 
+            VALUES (?, ?, ?, 0, ?)";
+    $stmt = $pdo->prepare($sql);
+    
+    if ($stmt->execute([$id_etudiant, $id_offre, $id_entreprise, $chemin_final])) {
+        header('Location: etudiant_home.php?success=1');
+    } else {
+        echo "Erreur lors de la postulation.";
     }
 }
