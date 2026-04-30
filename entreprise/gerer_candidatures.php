@@ -22,10 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['action'] === 'accepter') {
         $pdo->beginTransaction();
         try {
-            // On accepte l'étudiant
             $pdo->prepare("UPDATE Candidature SET statut = 1 WHERE id_utilisateur = ? AND id_offre = ?")->execute([$id_etu, $id_off]);
             
-            // On crée le stage
             $stmtDate = $pdo->prepare("SELECT date_debut, date_fin FROM Offre WHERE id_offre = ?");
             $stmtDate->execute([$id_off]);
             $o = $stmtDate->fetch();
@@ -42,9 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 3. REQUÊTE FILTRÉE (Le coeur de votre demande)
-// On sélectionne les candidatures EN ATTENTE (statut 0)
-// MAIS UNIQUEMENT pour les offres qui n'ont pas encore de candidat accepté (statut 1)
+// 3. REQUÊTE FILTRÉE (Sélectionne chemin_fichier désormais disponible)
 $sql = "SELECT c.*, u.prenom, u.nom_utilisateur, o.titre 
         FROM Candidature c 
         JOIN Utilisateur u ON c.id_utilisateur = u.id_utilisateur 
@@ -83,7 +79,8 @@ $candidatures = $stmt->fetchAll();
                     <tr>
                         <th>Candidat</th>
                         <th>Offre concernée</th>
-                        <th>Actions</th>
+                        <th class="text-center">Document</th>
+                        <th class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,6 +88,18 @@ $candidatures = $stmt->fetchAll();
                     <tr>
                         <td class="ps-3"><strong><?= htmlspecialchars($cand['prenom'] . " " . $cand['nom_utilisateur']) ?></strong></td>
                         <td><span class="badge bg-info text-dark"><?= htmlspecialchars($cand['titre']) ?></span></td>
+                        
+                        <td class="text-center">
+                            <?php if (!empty($cand['chemin_fichier'])): ?>
+                                <!-- Lien vers le dossier documents où sont stockés les fichiers[cite: 10] -->
+                                <a href="../documents/<?= htmlspecialchars($cand['chemin_fichier']) ?>" target="_blank" class="btn btn-sm btn-outline-primary">
+                                    👁️ Voir le CV
+                                </a>
+                            <?php else: ?>
+                                <span class="text-muted small">Aucun fichier joint</span>
+                            <?php endif; ?>
+                        </td>
+
                         <td class="text-end pe-3">
                             <form method="POST" class="d-inline">
                                 <input type="hidden" name="id_etudiant" value="<?= $cand['id_utilisateur'] ?>">
@@ -102,7 +111,7 @@ $candidatures = $stmt->fetchAll();
                     </tr>
                     <?php endforeach; ?>
                     <?php if(empty($candidatures)): ?>
-                        <tr><td colspan="3" class="text-center py-4 text-muted">Aucune candidature en attente de traitement.</td></tr>
+                        <tr><td colspan="4" class="text-center py-4 text-muted">Aucune candidature en attente de traitement.</td></tr>
                     <?php endif; ?>
                 </tbody>
             </table>
