@@ -73,6 +73,7 @@ CREATE TABLE Candidature (
     id_utilisateur INT(5) NOT NULL,
     id_offre INT(5) NOT NULL,
     id_entreprise INT(3) NOT NULL,
+    chemin_fichier VARCHAR(255) NULL,
     statut INT(1) DEFAULT 0, -- 0:attente, 1:acceptée, 2:refusée
     PRIMARY KEY (id_utilisateur, id_offre),
     -- ON DELETE CASCADE : supprime les candidatures si l'étudiant est supprimé
