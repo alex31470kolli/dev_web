@@ -7,6 +7,8 @@ Faire le rapport du projet
 
 Modifier les pages concernées pour que l'on puisse cliquer sur une offre et voir l'intégralité de son contenu.
 
+Ajouter un lien vers la page de connexion sur la page d'inscription
+
 Ajouter des logs quand on supprime une offre (et à d'autres endroits si vous pensez que cela est utile)
 
 Ajouter la possibilité de modifier une offre de stage
