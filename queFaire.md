@@ -1,13 +1,20 @@
-Ce qu'il reste à faire est noté ici.
+# Ce qu'il reste à faire est noté ici.
 
 
-Entreprise :
-  Changer l'interface et ne garder que les fonctionnalités principales
-  Demande de suppression d'offre par les admins
+Prévenir tt le monde quand vous travaillez sur certaines pages pour éviter que des personnes les modifies en même temps
 
-Etudiant :
-  Ajouter une fonctionnalté qui permette de filtrer les offres de stages par classe (ing1/ing2/ing3) par filière, par mots clés 
-  Ajouter des remarques sur le stage (d'abord créer des vrais stages)
-  Ajouter notifs pour la messagerie
-  Ajouter la possibilité de voir l'avancée du traitement d'une candidature
+Faire le rapport du projet
 
+Modifier les pages concernées pour que l'on puisse cliquer sur une offre et voir l'intégralité de son contenu.
+
+Ajouter des logs quand on supprime une offre (et à d'autres endroits si vous pensez que cela est utile)
+
+Ajouter la possibilité de modifier une offre de stage
+
+Ajouter la possibilité à un admin de refuser qu'une offre soit pourvue par un étudiant et donc modifier la page de traitement de candidature et la bdd enconséquence
+
+Faire pleins de tests des fonctionnalités et corriger les bugs
+
+Vous pouvez ajouter d'autres fonctionnalités, et si vous le faites, les répertorier dans un fichier 'fonctionnalités.txt'
+
+Si vous avez des soucis avec la connexion au site, n'hésitez pas à me contacter pour que je vous aide et que je rende plus claire les instructions dans le readme.
