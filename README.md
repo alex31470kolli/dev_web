@@ -49,7 +49,7 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
     Voici comment accéder au site une fois le github téléchargé
     - Se placer dans le répertoire correspondant à ce qui vient d'être téléchargé ( nom= dev_web ) 
     - Lancer un serveur local , voici la commande à entrer dans le terminal linux :
-        php -S localhost8080
+        php -S localhost:8080
     - L'adresse du site est : http://localhost:8000/connexion.html
     - Avant de se connecter, il faut lancer la base de donnéées 
     - Pour cela, 2 choix sont possibles : 
