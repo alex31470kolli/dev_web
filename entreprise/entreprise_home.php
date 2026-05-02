@@ -29,7 +29,16 @@ $stmtSignEnt = $pdo->prepare("
 $stmtSignEnt->execute([$id_ent]);
 $conventions_a_signer = $stmtSignEnt->fetchAll();
 
-// 3. RÉCUPÉRATION ET FILTRAGE DES OFFRES
+// 3. SUPPRESSION D'OFFRE
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_offre'])) {
+    $id_offre = intval($_POST['id_offre']);
+    $stmt = $pdo->prepare("DELETE FROM Offre WHERE id_offre = ? AND id_entreprise = ?");
+    $stmt->execute([$id_offre, $id_ent]);
+    header("Location: entreprise_home.php?success=deleted");
+    exit();
+}
+
+// 4. RÉCUPÉRATION ET FILTRAGE DES OFFRES
 $statut_filtre = $_GET['statut'] ?? 'tous';
 $tri_date = $_GET['tri'] ?? 'recent';
 
@@ -118,6 +127,13 @@ $offres_publiees = $stmtOffres->fetchAll();
 
     <h3 class="mb-4">Vos offres publiées (<?= count($offres_publiees) ?>)</h3>
 
+    <?php if (isset($_GET['success']) && $_GET['success'] === 'deleted'): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            ✅ Offre supprimée avec succès.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="row">
         <?php foreach ($offres_publiees as $offre): ?>
             <div class="col-md-4 mb-4">
@@ -137,6 +153,14 @@ $offres_publiees = $stmtOffres->fetchAll();
                         </div>
                         <p class="card-text small text-muted mb-1"><?= htmlspecialchars($offre['filiere']) ?></p>
                         <p class="card-text small">Fin : <?= date('d/m/Y', strtotime($offre['date_fin'])) ?></p>
+                    </div>
+                    <div class="card-footer bg-white border-top pt-2 d-flex gap-2">
+                        <a href="../details_offre.php?id=<?= $offre['id_offre'] ?>" class="btn btn-sm btn-info flex-grow-1">👁️ Détails</a>
+                        <a href="modifier_offre_entreprise.php?id=<?= $offre['id_offre'] ?>" class="btn btn-sm btn-primary flex-grow-1">✏️ Modifier</a>
+                        <form method="POST" class="d-flex gap-2" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette offre ?');" style="flex-grow: 1;">
+                            <input type="hidden" name="id_offre" value="<?= $offre['id_offre'] ?>">
+                            <button type="submit" name="delete_offre" class="btn btn-sm btn-danger flex-grow-1">🗑️ Supprimer</button>
+                        </form>
                     </div>
                 </div>
             </div>
