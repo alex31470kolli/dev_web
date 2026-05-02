@@ -63,7 +63,9 @@ $offres = $pdo->query("SELECT o.*, e.nom_entreprise FROM Offre o JOIN Entreprise
                         </div>
                     </form>
                 </div>
-                <div class="card-footer bg-white border-0 text-end">
+                <div class="card-footer bg-white border-0 text-end d-flex justify-content-end gap-2">
+                    <a href="../details_offre.php?id=<?= $o['id_offre'] ?>" class="btn btn-sm btn-outline-secondary">Détails</a>
+                    <a href="modifier_offre.php?id=<?= $o['id_offre'] ?>" class="btn btn-sm btn-primary">Modifier l'offre</a>
                     <form method="POST" onsubmit="return confirm('Supprimer définitivement cette offre ?');">
                         <input type="hidden" name="id_offre" value="<?= $o['id_offre'] ?>">
                         <button type="submit" name="delete_offre" class="btn btn-sm btn-danger">Supprimer l'offre</button>
