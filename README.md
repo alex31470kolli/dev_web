@@ -43,9 +43,23 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
   localhost:8080/connexion.html
 
       S'il vous arrive des merdes pour cette étape, contactez Mathéo
+      
+## Partie 2 : Se rendre sur le site
 
-## Partie 2 : Connexion
-
+    Voici comment accéder au site une fois le github téléchargé
+    - Se placer dans le répertoire correspondant à ce qui vient d'être téléchargé ( nom= dev_web ) 
+    - Lancer un serveur local , voici la commande à entrer dans le terminal linux :
+        php -S localhost8080
+    - L'adresse du site est : http://localhost:8000/connexion.html
+    - Avant de se connecter, il faut lancer la base de donnéées 
+    - Pour cela, 2 choix sont possibles : 
+        modifier le fichier db.php aux lignes 5 et 6 et mettre vos identifiants et mots de passes 
+        créer un utilisateur mysql nommé "Matheo" dont le mot de passe est "Mismagius#001"
+    - Lancez mysql avec l'une des 2 méthodes expliquées précédemment
+    - Activez la base de données "bdd_finale.sql" 
+    
+## Partie 3 : Connexion
+    
   Voici les identifiants du premier admin créé : mailadmin@gmail.com / 1234  (adresse mail / mot de passe)
   
   Lorsque vous voulez vous connecter, vous aurez besoin d'un code (authentification à 2 facteurs).
@@ -57,7 +71,7 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
 
   Vous pouvez ainsi saisir le bon code pour vous connecter.
   
-## Partie 3 : Test des fonctionnalités
+## Partie 4 : Test des fonctionnalités
 
   Tentez de créer des comptes admin/entreprise pour voir si on peut se conneter avec eux (et les accepter avec votre compte admin principal)
   (ou utiliser le fichier test_bd.sql avec la commande : source test_bd.sql dans le terminal mySQL)
