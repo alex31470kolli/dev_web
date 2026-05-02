@@ -68,7 +68,7 @@ if (!$acces_autorise) {
             <?php if ($_SESSION['role'] === 'etudiant'): ?>
                 <a href="../etudiant/etudiant_home.php" class="btn btn-secondary btn-sm">← Retour</a>
             <?php elseif ($_SESSION['role'] === 'entreprise'): ?>
-                <a href="entreprise_home.php" class="btn btn-secondary btn-sm">← Retour</a>
+                <a href="../entreprise/entreprise_home.php" class="btn btn-secondary btn-sm">← Retour</a>
             <?php elseif ($_SESSION['role'] === 'admin'): ?>
                 <a href="../admin/gestion_offres.php" class="btn btn-secondary btn-sm">← Retour</a>
             <?php endif; ?>
