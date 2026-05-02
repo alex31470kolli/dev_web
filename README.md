@@ -50,7 +50,7 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
     - Se placer dans le répertoire correspondant à ce qui vient d'être téléchargé ( nom= dev_web ) 
     - Lancer un serveur local , voici la commande à entrer dans le terminal linux :
         php -S localhost:8080
-    - L'adresse du site est : http://localhost:8000/connexion.html
+    - ouvrez le fichier connexion.html
     - Avant de se connecter, il faut lancer la base de donnéées 
     - Pour cela, 2 choix sont possibles : 
         modifier le fichier db.php aux lignes 5 et 6 et mettre vos identifiants et mots de passes 
