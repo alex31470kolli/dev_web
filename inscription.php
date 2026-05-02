@@ -49,6 +49,7 @@ require_once 'db.php';
 
         <br><br>
         <input type="submit" value="M'inscrire">
+        <p>Déjà un compte ? <a href="connexion.html">Connectez-vous ici</a></p>
     </form>
 
     <script>
