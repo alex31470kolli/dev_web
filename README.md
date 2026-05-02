@@ -1,6 +1,6 @@
 # Comment lancer le site web
 
-/!\ Puisque le site n'est pas hébergé, tout doit être fait sur le système d'exploitation Linux
+/!\ Puisque le site n'est pas hébergé, tout doit être fait en utilisant le système d'exploitation Linux
 
 ## Partie 1 : Première connexion
 
@@ -16,16 +16,17 @@
 ### Méthode 2 : Téléchargement du fichier
     Clisquez sur "Downlad zip" via le bouton : <>code
 
-    dézipper votre fichier
+    décompressez votre fichier
+
 
 ouvrez le fichier db.php (qui se trouve dans le répertoire dev_web) avec un éditeur de fichier/texte (ex : Visual Studio Code)
     Modifier les valeurs de $username et $password par les valeurs de vos identifiants mySQL
 
 via votre terminal :
 
-allez dans le fichier dézippé / cloné
-connectez-vous à voter utilisateur mySQL 
-      /* rappel : mysql -u nomUtilisateur -p */
+allez dans le fichier décompressé / cloné (il s'appelle dev_web)
+connectez-vous à votre utilisateur mySQL 
+      /* rappel de la commande : mysql -u nomUtilisateur -p */
 
 
 faites la commande :
@@ -49,13 +50,12 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
   
   Lorsque vous voulez vous connecter, vous aurez besoin d'un code (authentification à 2 facteurs).
   Cependant, puisque le serveur n'est pas encore hébergé, on ne peut pas envoyer de mail. C'est donc pour cela que j'écris cette partie.
-  Pour obtenir le code, faites une requête SQL permettant de récupérer le code avec votre compte. 
+  Pour obtenir le code, faites une requête SQL (dans votre terminal mySQL) permettant de récupérer le code avec votre compte. 
   Ex : 
   SELECT mail,a2f,a2f_expire FROM Utilisateur;
-  Vous obtenez la liste des mails des utilisateurs, le code a2f de l'utilisateur qui tente de se connecter.
+  Vous obtenez la liste des mails des utilisateurs, le code a2f de l'utilisateur qui tente de se connecter et le moment à partir duquel le code a2f n'est plus valable.
 
   Vous pouvez ainsi saisir le bon code pour vous connecter.
-      (je sais que c'est énervant, mais c'est la seule manière exploitable facilement que j'ai trouvée qui me permette d'utiliser l'A2f)
   
 ## Partie 3 : Test des fonctionnalités
 
@@ -64,14 +64,8 @@ dans chrome (jsp si les autres navigateurs fonctionnent) :
 
   Créez un/plusieurs comptes étudiants (normalement 
   
-  Testez les fonctionnalités admins présentes (contactez Mathéo si vous ne comprenez pas comment ça marche / si vous rencontrez des bugs)
-  Testez les fonctionnalités des comptes entreprises (contactez Lionel si elles buggent)
+  Testez les fonctionnalités admins présentes 
+  Testez les fonctionnalités des comptes entreprises
   Testez les fonctionnalités des comptes étudiants
 
-## Partie 4 : Quand il y a eu des changements
-
-  Tout reprendre depuis l'étape 1
-  (ne pas oublier de recloner le git dans votre pc: git clone lien dans votre terminal)
-
-
-Écrit par Mathéo
+Écrit par Mathéo Catto
