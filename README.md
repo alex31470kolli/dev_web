@@ -39,10 +39,8 @@ faite la commande :
   php -S localhost:8080
 cela ba bloquer les commandes terminal, ne faites pas de CTRL+C
   
-dans chrome (jsp si les autres navigateurs fonctionnent) :
+dans chrome ou firefox, collez le lien suivant :
   localhost:8080/connexion.html
-
-      S'il vous arrive des merdes pour cette étape, contactez Mathéo
 
 ## Partie 2 : Connexion
     
