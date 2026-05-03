@@ -79,9 +79,14 @@ $a_signer = $stmtSign->fetch();
                     <h5 class="card-title text-primary"><?= htmlspecialchars($o['titre']) ?></h5>
                     <p class="card-text text-truncate"><?= htmlspecialchars($o['missions']) ?></p>
                 </div>
-                <div class="card-footer bg-white border-0">
-                  <a href="postuler.php?id_offre=<?= $o['id_offre'] ?>" class="btn btn-primary w-100">✉️ Rédiger ma candidature</a>
-                </div>
+                <div class="card-footer bg-white border-0 d-grid gap-2">
+    <a href="../pages_communes/details_offre.php?id=<?= $o['id_offre'] ?>" class="btn btn-outline-secondary btn-sm">
+        👁️ Voir détails
+    </a>
+    <a href="postuler.php?id_offre=<?= $o['id_offre'] ?>" class="btn btn-primary btn-sm">
+        ✉️ Rédiger ma candidature
+    </a>
+</div>
             </div>
         </div>
         <?php endforeach; ?>
