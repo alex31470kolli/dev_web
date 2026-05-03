@@ -155,7 +155,7 @@ $offres_publiees = $stmtOffres->fetchAll();
                         <p class="card-text small">Fin : <?= date('d/m/Y', strtotime($offre['date_fin'])) ?></p>
                     </div>
                     <div class="card-footer bg-white border-top pt-2 d-flex gap-2">
-                        <a href="../details_offre.php?id=<?= $offre['id_offre'] ?>" class="btn btn-sm btn-info flex-grow-1">👁️ Détails</a>
+                        <a href="../pages_communes/details_offre.php?id=<?= $offre['id_offre'] ?>" class="btn btn-sm btn-info flex-grow-1">👁️ Détails</a>
                         <a href="modifier_offre_entreprise.php?id=<?= $offre['id_offre'] ?>" class="btn btn-sm btn-primary flex-grow-1">✏️ Modifier</a>
                         <form method="POST" class="d-flex gap-2" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette offre ?');" style="flex-grow: 1;">
                             <input type="hidden" name="id_offre" value="<?= $offre['id_offre'] ?>">
